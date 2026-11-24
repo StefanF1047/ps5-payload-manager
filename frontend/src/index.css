@@ -142,10 +142,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--color-ps-black);
-  background-image:
-    radial-gradient(1100px 720px at 6% -12%, rgba(124, 58, 237, 0.13), transparent 62%),
-    radial-gradient(900px 640px at 102% -6%, rgba(219, 39, 119, 0.13), transparent 60%),
-    radial-gradient(1000px 820px at 50% 118%, rgba(99, 102, 241, 0.14), transparent 66%);
+  background-image: linear-gradient(180deg, #eef3fb 0%, #e9effa 45%, #f5eefb 100%);
   background-repeat: no-repeat;
   color: var(--color-ps-text);
   font-family: var(--font-inter);
@@ -194,24 +191,16 @@ body {
 }
 
 .glass-card {
-  background:
-    radial-gradient(130% 150% at 100% 0%, rgba(124, 58, 237, 0.05), rgba(0, 0, 0, 0) 58%),
-    linear-gradient(160deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.66));
-  border: 1px solid rgba(17, 45, 90, 0.07);
-  box-shadow: 0 14px 34px -26px rgba(20, 40, 80, 0.35);
-  transition: background-color 0.2s ease, border-color 0.2s ease,
-    transform 0.32s cubic-bezier(.34, 1.4, .64, 1), box-shadow 0.32s ease;
-  animation: pm-fade 0.32s ease both;
+  background: #ffffff;
+  border: 1px solid rgba(17, 45, 90, 0.06);
+  transition: transform 0.18s ease, border-color 0.18s ease;
   position: relative;
 }
 
 .glass-card:hover, .glass-card:focus-within {
-  background:
-    radial-gradient(130% 150% at 100% 0%, rgba(124, 58, 237, 0.1), rgba(0, 0, 0, 0) 58%),
-    linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.8));
+  background: #ffffff;
   border-color: rgba(124, 58, 237, 0.18);
-  transform: translateY(-3px) scale(1.004);
-  box-shadow: 0 22px 44px -28px rgba(20, 40, 80, 0.4);
+  transform: translateY(-1px);
   outline: none;
 }
 
@@ -230,7 +219,7 @@ button {
   font-weight: 600 !important;
   -webkit-tap-highlight-color: transparent;
   transition: transform 0.22s cubic-bezier(.34, 1.56, .64, 1),
-    background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 button:active:not(:disabled) {
@@ -402,9 +391,7 @@ h1, h2, h3, h4 {
 }
 
 button:hover .animate-marquee,
-button:focus .animate-marquee,
-.group:hover .animate-marquee,
-.group:focus-within .animate-marquee {
+.group:hover .animate-marquee {
   animation: marquee-alternate 4s ease-in-out infinite alternate;
 }
 
@@ -468,12 +455,10 @@ button:focus .animate-marquee,
 
 /* Sidebar shell */
 .pm-sidebar {
-  background:
-    radial-gradient(140% 34% at 100% 0%, rgba(124, 58, 237, 0.1), rgba(0, 0, 0, 0) 70%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(246, 249, 255, 0.92));
-  border: 1px solid rgba(17, 45, 90, 0.07);
+  background: #f8faff;
+  border: 1px solid rgba(17, 45, 90, 0.06);
   border-radius: 24px;
-  box-shadow: 0 30px 60px -34px rgba(20, 40, 80, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 14px -10px rgba(20, 40, 80, 0.25);
   overflow: hidden;
   position: relative;
 }
@@ -499,7 +484,6 @@ button:focus .animate-marquee,
   font-weight: 900;
   letter-spacing: 0.04em;
   color: #0a1730;
-  text-shadow: 0 0 18px rgba(124, 58, 237, 0.25);
 }
 
 .pm-nav-active {
@@ -519,8 +503,6 @@ button:focus .animate-marquee,
   height: 6px;
   border-radius: 50%;
   background: var(--color-ps-green);
-  box-shadow: 0 0 10px var(--color-ps-green);
-  animation: pm-pulse 2.6s ease-in-out infinite;
   flex-shrink: 0;
 }
 
@@ -550,9 +532,9 @@ button:focus .animate-marquee,
 /* Mobile navigation stays out of flow; no positioning here so the
    utility class `fixed` keeps control on every Tailwind build. */
 .pm-mobilenav {
-  background: rgba(255, 255, 255, 0.92);
+  background: #ffffff;
   border-top: 1px solid rgba(17, 45, 90, 0.06);
-  box-shadow: 0 -16px 34px -30px rgba(20, 40, 80, 0.4);
+  box-shadow: 0 -2px 8px -6px rgba(20, 40, 80, 0.2);
 }
 
 /* Nav grouping + keyboard hints (NEXUS-style) */
@@ -731,34 +713,16 @@ button[aria-current="page"] .pm-kbd {
   transition: width 0.3s ease;
 }
 
-.pm-meter > span::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-  transform: translateX(-100%);
-  animation: pm-shimmer 1.9s linear infinite;
-}
-
-@keyframes pm-shimmer {
-  to { transform: translateX(100%); }
-}
-
 /* Primary gradient action */
 .pm-btn-primary {
   background: linear-gradient(135deg, #7c3aed 0%, #a855f7 48%, #db2777 100%);
   color: #ffffff;
-  box-shadow: 0 12px 28px -16px rgba(124, 58, 237, 0.7);
-  transition: transform 0.24s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.24s ease, filter 0.18s ease;
+  box-shadow: 0 3px 8px -4px rgba(124, 58, 237, 0.4);
+  transition: transform 0.22s cubic-bezier(.34, 1.56, .64, 1);
 }
 
 .pm-btn-primary:hover {
   transform: translateY(-1px);
-  filter: brightness(1.06);
-  box-shadow: 0 16px 34px -16px rgba(124, 58, 237, 0.8);
 }
 
 .pm-btn-primary:active {
@@ -830,12 +794,12 @@ button[aria-current="page"] .pm-kbd {
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.72);
+  background: #ffffff;
   border: 1px solid rgba(17, 45, 90, 0.07);
   color: #586d92;
-  box-shadow: 0 8px 18px -14px rgba(20, 40, 80, 0.4);
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease,
-    transform 0.28s cubic-bezier(.34, 1.4, .64, 1), box-shadow 0.28s ease;
+  box-shadow: 0 1px 2px rgba(20, 40, 80, 0.04);
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease,
+    transform 0.2s cubic-bezier(.34, 1.4, .64, 1);
 }
 
 .pm-icon-btn:hover,
@@ -843,8 +807,7 @@ button[aria-current="page"] .pm-kbd {
   background: #ffffff;
   border-color: rgba(124, 58, 237, 0.18);
   color: #0a1730;
-  transform: translateY(-1px) scale(1.04);
-  box-shadow: 0 12px 24px -14px rgba(20, 40, 80, 0.45);
+  transform: translateY(-1px) scale(1.03);
 }
 
 .pm-icon-btn:active {
@@ -881,15 +844,11 @@ button[aria-current="page"] .pm-kbd {
 }
 
 /* Payload tiles */
-.pm-tile {
-  overflow: hidden;
-}
-
 .pm-tile-danger,
 .pm-tile-danger:hover,
 .pm-tile-danger:focus-within {
-  border-color: rgba(225, 29, 72, 0.55);
-  background: linear-gradient(155deg, rgba(255, 241, 242, 0.95), rgba(255, 255, 255, 0.96));
+  border-color: rgba(225, 29, 72, 0.35);
+  background: #fff5f6;
 }
 
 /* Icon plate */
@@ -897,26 +856,13 @@ button[aria-current="page"] .pm-kbd {
   position: relative;
   overflow: hidden;
   color: #ffffff !important;
-  border: 1px solid rgba(17, 45, 90, 0.24);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 20px -14px rgba(20, 40, 80, 0.5);
-}
-
-.pm-icon::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%);
-  pointer-events: none;
+  border: 1px solid rgba(17, 45, 90, 0.12);
 }
 
 /* HUD panels used by modals, overlays and feature cards */
 .pm-panel {
-  background:
-    radial-gradient(120% 140% at 100% 0%, rgba(124, 58, 237, 0.05), rgba(0, 0, 0, 0) 60%),
-    linear-gradient(165deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.68));
-  border: 1px solid rgba(17, 45, 90, 0.07);
-  box-shadow: 0 18px 40px -30px rgba(20, 40, 80, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  animation: pm-fade 0.32s ease both;
+  background: #fbfcff;
+  border: 1px solid rgba(17, 45, 90, 0.06);
   position: relative;
 }
 
@@ -929,10 +875,9 @@ button[aria-current="page"] .pm-kbd {
 }
 
 .pm-modal {
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 255, 0.98));
+  background: #ffffff;
   border: 1px solid rgba(17, 45, 90, 0.08);
-  box-shadow: 0 40px 90px -40px rgba(20, 40, 80, 0.45);
-  animation: pm-pop 0.34s cubic-bezier(.34, 1.4, .64, 1) both;
+  box-shadow: 0 10px 30px -18px rgba(20, 40, 80, 0.35);
   position: relative;
   overflow: hidden;
 }
@@ -944,23 +889,23 @@ button[aria-current="page"] .pm-kbd {
 
 /* Toasts */
 .pm-toast {
-  background: linear-gradient(120deg, rgba(236, 253, 245, 0.97), rgba(255, 255, 255, 0.98));
-  border: 1px solid rgba(5, 150, 105, 0.4);
+  background: #f0fdf7;
+  border: 1px solid rgba(5, 150, 105, 0.35);
   border-left-width: 3px;
-  box-shadow: 0 18px 40px -24px #000, 0 0 24px -14px rgba(5, 150, 105, 0.5);
+  box-shadow: 0 4px 12px -8px rgba(20, 40, 80, 0.3);
 }
 
 .pm-toast-error {
-  background: linear-gradient(120deg, rgba(255, 241, 242, 0.97), rgba(255, 255, 255, 0.98));
-  border-color: rgba(225, 29, 72, 0.45);
-  box-shadow: 0 18px 40px -24px #000, 0 0 24px -14px rgba(225, 29, 72, 0.5);
+  background: #fff1f2;
+  border-color: rgba(225, 29, 72, 0.4);
+  box-shadow: 0 4px 12px -8px rgba(20, 40, 80, 0.3);
 }
 
 /* Toggle switches */
 .pm-switch {
   background: rgba(124, 58, 237, 0.1);
   border: 1px solid rgba(17, 45, 90, 0.18);
-  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
 .pm-switch-on {
@@ -976,9 +921,8 @@ button[aria-current="page"] .pm-kbd {
 
 /* Skeletons */
 .pm-skeleton {
-  background: rgba(17, 45, 90, 0.06);
-  border: 1px solid rgba(17, 45, 90, 0.08);
-  animation: pm-pulse 1.8s ease-in-out infinite;
+  background: #eef2f9;
+  border: 1px solid rgba(17, 45, 90, 0.04);
 }
 
 /* Log surface */
@@ -1000,9 +944,6 @@ button[aria-current="page"] .pm-kbd {
 /* Autoload overlay backdrop */
 .pm-overlay-bg {
   background-color: #eef3fb;
-  background-image:
-    radial-gradient(900px 600px at 12% -10%, rgba(124, 58, 237, 0.16), transparent 62%),
-    radial-gradient(800px 600px at 100% 110%, rgba(219, 39, 119, 0.14), transparent 60%);
 }
 
 /* Ambient background stack — grid drift, glow orbs, scan beam, vignette.
@@ -1362,18 +1303,17 @@ button[aria-current="page"] .pm-kbd {
   height: 3rem;
   border-radius: 999px;
   border: 1px solid rgba(17, 45, 90, 0.07);
-  background: rgba(255, 255, 255, 0.86);
+  background: #ffffff;
   color: #7c3aed;
-  box-shadow: 0 16px 30px -20px rgba(20, 40, 80, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  transition: transform 0.3s cubic-bezier(.34, 1.4, .64, 1), background-color 0.2s ease,
-    color 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(20, 40, 80, 0.08);
+  transition: transform 0.24s cubic-bezier(.34, 1.4, .64, 1), background-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .pm-fab:hover,
 .pm-fab:focus-visible {
-  transform: translateY(-3px) scale(1.05);
+  transform: translateY(-2px) scale(1.04);
   background: #ffffff;
-  box-shadow: 0 22px 38px -20px rgba(20, 40, 80, 0.5);
 }
 
 .pm-fab:active {

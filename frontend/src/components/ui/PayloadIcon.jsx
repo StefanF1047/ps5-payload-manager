@@ -40,16 +40,15 @@ const PayloadIcon = ({ icon, name, className }) => {
 
   // Fallback
   const hash = stringToHash(name || 'Payload');
-  const [colorStart, colorEnd] = COLORS[hash % COLORS.length];
+  const [colorStart] = COLORS[hash % COLORS.length];
 
   return (
     <div 
       className={cn("pm-icon rounded-xl flex items-center justify-center shrink-0 text-white relative overflow-hidden", className)}
       style={{
-        background: `radial-gradient(circle at 28% 18%, ${colorStart}44, transparent 62%), linear-gradient(135deg, ${colorStart}, ${colorEnd})`
+        background: colorStart
       }}
     >
-      <span className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px)', backgroundSize: '10px 10px' }} />
       <Package className="relative w-1/2 h-1/2 opacity-95" />
     </div>
   );

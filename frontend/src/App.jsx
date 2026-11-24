@@ -724,11 +724,6 @@ function App() {
       "min-h-screen min-h-[100dvh] ps5-bg text-zinc-100 font-ps5 flex relative",
       isPS5 ? "flex-row overflow-hidden" : "flex-col md:flex-row md:overflow-hidden"
     )}>
-      <div aria-hidden="true" className="pm-fx">
-        <div className="pm-fx__orb pm-fx__orb--a" />
-        <div className="pm-fx__orb pm-fx__orb--b" />
-        <div className="pm-fx__vignette" />
-      </div>
       {/* Toast Container */}
       <div data-toast-container className="fixed top-4 right-4 left-4 md:top-8 md:right-8 md:left-auto md:w-[420px] z-[2000] flex flex-col space-y-3 pointer-events-none max-h-[calc(100vh-2rem)] md:max-h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar">
         {toasts.map(t => (
