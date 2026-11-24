@@ -108,14 +108,6 @@ const PayloadButton = ({
               <Trash2 className="w-5 h-5" />
             </div>
           )}
-          {isLaunched && !isEditMode && !isManageMode && !isLoading && (
-            <div className="group/tooltip relative p-1 text-emerald-500">
-              <CheckCircle2 className="w-5 h-5" />
-              <div className="absolute bottom-full right-0 mb-2 px-2 py-1 pm-panel pm-mono text-[10px] uppercase tracking-[0.14em] text-white rounded opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                {t("app.dashboard.launched_tooltip", "Launched recently")}
-              </div>
-            </div>
-          )}
           {isLoading && <Loader2 className="w-6 h-6 animate-spin text-ps-blue" />}
         </div>
       </div>
@@ -125,6 +117,21 @@ const PayloadButton = ({
         </div>
       )}
       </button>
+
+      {/*
+        "Launched" sticker — rendered as an absolutely-positioned badge
+        OUTSIDE the button's flex layout, so it never steals horizontal
+        space from the payload name. No tooltip; purely a status marker.
+      */}
+      {isLaunched && !isEditMode && !isManageMode && !isLoading && (
+        <div
+          className="absolute top-1.5 right-1.5 z-20 flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 text-white shadow-[0_2px_10px_rgba(16,185,129,0.55)] pointer-events-none"
+          aria-label={t("app.dashboard.launched_tooltip", "Launched recently")}
+        >
+          <CheckCircle2 className="w-4 h-4" />
+        </div>
+      )}
+
       {(isEditMode && isFavorite) && (
         <div className="absolute bottom-2 right-3 flex items-center gap-2 z-20">
           <button
