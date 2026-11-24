@@ -79,7 +79,7 @@ const PayloadName = ({ path = '', version: repoVersion, className, versionClassN
             <span className={cn(
               stacked
                 ? "text-[11px] font-bold tracking-wider text-ps-blue opacity-90"
-                : "text-[10px] px-2 py-0.5 bg-ps-blue/10 text-ps-blue font-bold rounded-md border border-ps-blue/20 shrink-0",
+                : "pm-chip shrink-0 max-w-[120px] truncate",
               versionClassName)}>
               {version}
             </span>

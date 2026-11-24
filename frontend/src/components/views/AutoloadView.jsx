@@ -197,12 +197,12 @@ const AutoloadView = ({
               <ArrowLeft className="w-5 h-5" />
             </button>
           )}
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="pm-heading text-2xl md:text-3xl">
             {t("autoload.available_title", "Available Payloads")}
           </h2>
         </div>
       </div>
-      <div className="glass-panel p-4 md:p-5 rounded-ps-3xl border-white/10 flex-1 overflow-hidden flex flex-col min-h-0">
+      <div className="pm-panel pm-frame p-4 md:p-5 rounded-ps-3xl flex-1 overflow-hidden flex flex-col min-h-0">
         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar min-h-0 pb-2">
           <div className="grid grid-cols-1 gap-2.5">
             {availableSlots.map((item) => {
@@ -217,10 +217,10 @@ const AutoloadView = ({
                   onClick={() => !isBlocked && addPayload(item.slot)}
                   disabled={isBlocked}
                   className={cn(
-                    "group glass-card pl-4 pr-3 py-2.5 rounded-ps-xl flex flex-col justify-center border transition-all text-left relative min-h-[72px] w-full",
+                    "group glass-card pm-tile pl-4 pr-3 py-2.5 rounded-ps-xl flex flex-col justify-center border transition-all text-left relative min-h-[72px] w-full",
                     isBlocked
                       ? "opacity-40 grayscale cursor-not-allowed border-white/5"
-                      : "border-white/5 hover:border-ps-blue hover:bg-ps-blue/5 focus:border-ps-blue focus:outline-none"
+                      : "border-white/5 focus:outline-none"
                   )}
                 >
                   <div className="flex items-center justify-between w-full z-10 my-auto">
@@ -237,7 +237,7 @@ const AutoloadView = ({
                         />
                         <div className="flex items-center gap-2 mt-0.5">
                           {meta?.version && (
-                            <span className="text-[10px] text-zinc-400 font-bold bg-white/10 px-1.5 py-0.5 rounded uppercase shrink-0 leading-none">
+                            <span className="pm-chip pm-chip-muted px-1.5 py-0.5 max-w-[110px] truncate">
                               {meta.version}
                             </span>
                           )}
@@ -249,8 +249,8 @@ const AutoloadView = ({
                         </div>
                         {meta?.sourceName && (
                           <div className="flex items-center mt-0.5">
-                            <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold bg-white/10 px-1.5 py-0.5 rounded uppercase shrink-0 max-w-full select-none leading-none" title={meta.sourceName}>
-                              <Globe className="w-3 h-3 text-zinc-400 shrink-0" />
+                            <span className="pm-chip pm-chip-muted max-w-full normal-case tracking-normal" title={meta.sourceName}>
+                              <Globe className="w-3 h-3 shrink-0 opacity-70" />
                               <span className="truncate">{formatSourceTag(meta.sourceName)}</span>
                             </span>
                           </div>
@@ -266,20 +266,19 @@ const AutoloadView = ({
                       )} />
                     </div>
                   </div>
-                  <div className="absolute inset-0 rounded-ps-xl bg-ps-blue/0 group-hover:bg-ps-blue/5 transition-colors z-0 pointer-events-none" />
                 </button>
               )
             })}
-            <div className="pt-2 border-t border-white/10 mt-1">
+            <div className="pt-2 border-t border-[rgba(124,58,237,0.12)] mt-1">
               <button
                 onClick={() => setShowDelayModal(true)}
-                className="group glass-card pl-4 pr-3 py-2.5 rounded-ps-xl flex items-center justify-between border border-dashed border-white/20 hover:border-ps-blue hover:bg-ps-blue/5 focus:border-ps-blue focus:outline-none transition-all text-left relative min-h-[58px] w-full"
+                className="group glass-card pm-tile pl-4 pr-3 py-2.5 rounded-ps-xl flex items-center justify-between border border-dashed border-[rgba(124,58,237,0.3)] focus:border-ps-blue focus:outline-none transition-all text-left relative min-h-[58px] w-full"
               >
                 <div className="flex items-center gap-3.5 min-w-0 pr-2">
-                  <div className="w-10 h-10 text-lg shrink-0 rounded-xl flex items-center justify-center border border-ps-blue/30 bg-ps-blue/10 text-ps-blue">
+                  <div className="w-10 h-10 text-lg shrink-0 rounded-lg flex items-center justify-center border border-ps-blue/40 bg-ps-blue/10 text-ps-blue">
                     <Zap className="w-5 h-5" />
                   </div>
-                  <span className="font-bold text-white uppercase tracking-tight text-base leading-none">
+                  <span className="font-bold text-white uppercase tracking-[0.08em] text-sm md:text-base leading-none">
                     {t("autoload.add_delay_btn", "Add Delay")}
                   </span>
                 </div>
@@ -294,19 +293,19 @@ const AutoloadView = ({
 
   const renderSequence = () => (
     <div className="flex flex-col h-full min-h-0">
-      <div className="flex items-center justify-between shrink-0 h-11 mb-4">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-          {t("autoload.sequence_title_1", "Autoload")} <span className="text-ps-blue">{t("autoload.sequence_title_2", "Sequence")}</span>
+      <div className="flex items-center justify-between shrink-0 h-11 mb-4 gap-3">
+        <h2 className="pm-heading text-2xl md:text-3xl min-w-0 truncate">
+          {t("autoload.sequence_title_1", "Autoload")} <span className="pm-heading-accent">{t("autoload.sequence_title_2", "Sequence")}</span>
         </h2>
         <button
           onClick={() => handleToggle(false)}
-          className="px-3.5 py-1.5 rounded-xl font-black uppercase italic tracking-wider bg-red-600/10 text-red-500 border border-red-500/30 hover:bg-red-600 hover:text-white transition-all shadow-lg text-xs shrink-0"
+          className="px-3.5 py-1.5 rounded-md font-black uppercase tracking-[0.12em] bg-red-600/10 text-red-400 border border-red-500/35 hover:bg-red-600 hover:text-white transition-colors text-[10px] md:text-xs shrink-0"
         >
           {t("autoload.disable_btn", "Disable Autoload")}
         </button>
       </div>
 
-      <div className="glass-panel p-4 md:p-5 rounded-ps-3xl border-white/10 flex-1 overflow-hidden flex flex-col min-h-0">
+      <div className="pm-panel pm-frame p-4 md:p-5 rounded-ps-3xl flex-1 overflow-hidden flex flex-col min-h-0">
         <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 min-h-0 pb-2">
           <div className="grid grid-cols-1 gap-2.5">
             {autoloadList.map((p, i) => {
@@ -314,19 +313,19 @@ const AutoloadView = ({
               return (
                 <div
                   key={`${p}-${i}`}
-                  className="group glass-card pl-4 pr-3 py-2.5 rounded-ps-xl flex flex-col justify-center border border-white/5 hover:border-ps-blue/40 focus-within:border-ps-blue transition-all text-left relative min-h-[72px]"
+                  className="group glass-card pm-tile pl-4 pr-3 py-2.5 rounded-ps-xl flex flex-col justify-center border border-white/5 focus-within:border-ps-blue transition-all text-left relative min-h-[72px]"
                 >
                   <div className="flex items-center justify-between w-full z-10 my-auto">
                     <div className="flex items-center gap-3.5 min-w-0 pr-2 flex-1">
                       <div className="relative shrink-0">
                         {meta?.isDelay ? (
-                          <div className="w-11 h-11 text-xl rounded-2xl flex items-center justify-center border border-ps-blue/30 bg-ps-blue/10 text-ps-blue">
+                          <div className="w-11 h-11 text-xl rounded-lg flex items-center justify-center border border-ps-blue/40 bg-ps-blue/10 text-ps-blue">
                             <Zap className="w-5 h-5" />
                           </div>
                         ) : (
                           <PayloadIcon icon={meta?.icon} name={meta?.iconName} className="w-11 h-11 text-xl shrink-0" />
                         )}
-                        <div className="absolute -top-1.5 -left-1.5 z-20 w-5 h-5 rounded-full bg-ps-blue border border-black/60 flex items-center justify-center text-[10px] font-black text-white shadow select-none">
+                        <div className="pm-mono absolute -top-1.5 -left-1.5 z-20 w-5 h-5 rounded-full bg-ps-blue border border-[#ffffff] flex items-center justify-center text-[10px] font-black text-white shadow-[0_0_10px_rgba(124,58,237,0.8)] select-none">
                           {i + 1}
                         </div>
                       </div>
@@ -342,7 +341,7 @@ const AutoloadView = ({
                         />
                         <div className="flex items-center gap-2 mt-0.5">
                           {meta?.version && (
-                            <span className="text-[10px] text-zinc-400 font-bold bg-white/10 px-1.5 py-0.5 rounded uppercase shrink-0 leading-none">
+                            <span className="pm-chip pm-chip-muted px-1.5 py-0.5 max-w-[110px] truncate">
                               {meta.version}
                             </span>
                           )}
@@ -354,8 +353,8 @@ const AutoloadView = ({
                         </div>
                         {meta?.sourceName && (
                           <div className="flex items-center mt-0.5">
-                            <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold bg-white/10 px-1.5 py-0.5 rounded uppercase shrink-0 max-w-full select-none leading-none" title={meta.sourceName}>
-                              <Globe className="w-3 h-3 text-zinc-400 shrink-0" />
+                            <span className="pm-chip pm-chip-muted max-w-full normal-case tracking-normal" title={meta.sourceName}>
+                              <Globe className="w-3 h-3 shrink-0 opacity-70" />
                               <span className="truncate">{formatSourceTag(meta.sourceName)}</span>
                             </span>
                           </div>
@@ -370,7 +369,7 @@ const AutoloadView = ({
                         }}
                         disabled={i === 0}
                         title={t("autoload.move_up", "Move Up")}
-                        className="p-1.5 bg-white/5 hover:bg-ps-blue focus:bg-ps-blue hover:text-white focus:text-white text-zinc-400 rounded-lg border border-white/5 hover:border-ps-blue focus:border-ps-blue transition-all disabled:opacity-20 disabled:pointer-events-none"
+                        className="pm-icon-btn p-1.5 rounded-md disabled:opacity-20 disabled:pointer-events-none"
                       >
                         <ChevronUp className="w-4 h-4" />
                       </button>
@@ -381,7 +380,7 @@ const AutoloadView = ({
                         }}
                         disabled={i === autoloadList.length - 1}
                         title={t("autoload.move_down", "Move Down")}
-                        className="p-1.5 bg-white/5 hover:bg-ps-blue focus:bg-ps-blue hover:text-white focus:text-white text-zinc-400 rounded-lg border border-white/5 hover:border-ps-blue focus:border-ps-blue transition-all disabled:opacity-20 disabled:pointer-events-none"
+                        className="pm-icon-btn p-1.5 rounded-md disabled:opacity-20 disabled:pointer-events-none"
                       >
                         <ChevronDown className="w-4 h-4" />
                       </button>
@@ -391,31 +390,30 @@ const AutoloadView = ({
                           removePayload(i)
                         }}
                         title={t("autoload.remove", "Remove")}
-                        className="p-1.5 bg-white/5 hover:bg-red-600 focus:bg-red-600 hover:text-white focus:text-white text-zinc-400 hover:border-red-500 focus:border-red-500 rounded-lg border border-white/5 transition-all"
+                        className="pm-icon-btn pm-icon-btn-danger p-1.5 rounded-md"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
-                  <div className="absolute inset-0 rounded-ps-xl bg-ps-blue/0 group-hover:bg-ps-blue/5 transition-colors z-0 pointer-events-none" />
                 </div>
               )
             })}
           </div>
           {autoloadList.length === 0 && (
-            <div className="flex-1 flex flex-col items-center justify-center opacity-10 italic py-20">
-              <RefreshCw className="w-16 h-16 mb-4" />
-              <p className="text-2xl font-bold">{t("autoload.sequence_empty", "Sequence Empty")}</p>
+            <div className="flex-1 flex flex-col items-center justify-center py-20 text-zinc-600">
+              <RefreshCw className="w-14 h-14 mb-4 opacity-30" />
+              <p className="pm-mono text-lg font-bold uppercase tracking-[0.24em] opacity-60">{t("autoload.sequence_empty", "Sequence Empty")}</p>
             </div>
           )}
 
           <div className={cn("pt-4 mt-2", isPS5 ? "hidden" : "lg:hidden")}>
             <button
               onClick={() => setSubView('add')}
-              className="w-full flex items-center justify-center space-x-4 p-6 bg-ps-blue/10 hover:bg-ps-blue text-ps-blue hover:text-white rounded-2xl border border-dashed border-ps-blue/30 hover:border-ps-blue transition-all group shadow-lg"
+              className="w-full flex items-center justify-center space-x-4 p-6 bg-ps-blue/10 hover:bg-ps-blue text-ps-blue hover:text-white rounded-xl border border-dashed border-ps-blue/40 transition-colors group"
             >
               <Activity className="w-6 h-6" />
-              <span className="font-black italic text-xl uppercase tracking-tighter">{t("autoload.add_item_btn", "Add Item to Sequence")}</span>
+              <span className="font-black text-base md:text-lg uppercase tracking-[0.12em]">{t("autoload.add_item_btn", "Add Item to Sequence")}</span>
             </button>
           </div>
         </div>
@@ -437,14 +435,14 @@ const AutoloadView = ({
       <div className="flex-1 flex flex-col items-center justify-center space-y-8 text-center p-6 md:p-12">
         {saveNotice}
         <div className="relative h-24 w-24 md:h-32 md:w-32 mx-auto">
-          <div className="absolute inset-0 bg-ps-blue/20 rounded-full" />
-          <div className="relative flex items-center justify-center h-full w-full bg-black/40 border border-white/10 rounded-3xl md:rounded-[2.5rem] shadow-2xl">
+          <div className="absolute inset-0 bg-ps-blue/15 rounded-full" />
+          <div className="relative flex items-center justify-center h-full w-full pm-panel pm-frame rounded-ps-2xl">
             <RefreshCw className="w-10 h-10 md:w-16 md:h-16 text-ps-blue" />
           </div>
         </div>
         <div className="space-y-3 md:space-y-4 px-4 max-w-2xl">
-          <h2 className="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tighter">
-            {t("autoload.sequence_title_1", "Autoload")} <span className="text-ps-blue">{t("autoload.sequence_title_2", "Sequence")}</span>
+          <h2 className="pm-heading text-3xl md:text-5xl">
+            {t("autoload.sequence_title_1", "Autoload")} <span className="pm-heading-accent">{t("autoload.sequence_title_2", "Sequence")}</span>
           </h2>
           <p className="text-md md:text-xl text-zinc-400 font-medium leading-relaxed">
             {t("autoload.enable_desc", "Chain multiple payloads to be executed automatically every time Payload Manager starts.")}
@@ -452,7 +450,7 @@ const AutoloadView = ({
         </div>
         <button
           onClick={() => handleToggle(true)}
-          className="px-8 md:px-12 py-5 md:py-6 bg-ps-blue text-white text-lg md:text-2xl font-extrabold rounded-2xl md:rounded-[1.5rem] hover:bg-ps-blue/80 transition-all transform active:scale-95 shadow-[0_0_40px_rgba(0,149,255,0.3)]"
+          className="pm-btn-primary px-8 md:px-12 py-5 md:py-6 text-lg md:text-xl font-black uppercase tracking-[0.12em] rounded-xl"
         >
           {t("autoload.enable_btn", "Enable Autoload")}
         </button>
@@ -498,7 +496,7 @@ const AutoloadView = ({
               <button
                 key={s}
                 onClick={() => addDelay(s * 1000)}
-                className="py-4 md:py-6 bg-ps-blue/20 hover:bg-ps-blue border border-ps-blue/30 text-white rounded-2xl font-black text-xl md:text-2xl transition-all shadow-lg"
+                className="py-4 md:py-6 bg-ps-blue/15 hover:bg-ps-blue border border-ps-blue/35 text-white hover:text-white rounded-lg font-black text-xl md:text-2xl transition-colors"
               >
                 {s}s
               </button>
@@ -513,11 +511,11 @@ const AutoloadView = ({
                 placeholder={t("autoload.delay_modal.placeholder", "e.g. 2500")}
                 value={customDelay}
                 onChange={(e) => setCustomDelay(e.target.value)}
-                className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-4 md:p-5 text-white font-mono text-xl md:text-2xl focus:border-ps-blue outline-none transition-all"
+                className="flex-1 bg-white/5 border border-[rgba(124,58,237,0.2)] rounded-lg p-4 md:p-5 text-white pm-mono text-xl md:text-2xl focus:border-ps-blue outline-none transition-all"
               />
               <button
                 onClick={() => customDelay && addDelay(parseInt(customDelay))}
-                className="py-4 md:py-0 px-8 md:px-10 bg-ps-blue text-white rounded-2xl font-black uppercase italic tracking-tighter text-lg md:text-xl shadow-2xl hover:bg-ps-blue/80 transition-all shrink-0"
+                className="py-4 md:py-0 px-8 md:px-10 bg-ps-blue text-white rounded-lg font-black uppercase tracking-[0.12em] text-lg md:text-xl hover:bg-[#db2777] transition-colors shrink-0"
               >
                 {t("autoload.delay_modal.add_btn", "Add")}
               </button>

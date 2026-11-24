@@ -98,20 +98,20 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
         <div className="flex items-center space-x-6">
           <button
             onClick={onBack}
-            className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/10"
+            className="pm-icon-btn p-4 rounded-lg"
           >
             <ArrowLeft className="w-7 h-7" />
           </button>
-          <h2 className="text-4xl font-extrabold text-white tracking-tight">
-            {t("manage_sources.ps5_title_1", "Manage")} <span className="text-ps-blue">{t("manage_sources.ps5_title_2", "Sources")}</span>
+          <h2 className="pm-heading text-3xl md:text-4xl">
+            {t("manage_sources.ps5_title_1", "Manage")} <span className="pm-heading-accent">{t("manage_sources.ps5_title_2", "Sources")}</span>
           </h2>
         </div>
 
-        <div className="glass-card p-10 rounded-ps-3xl border border-white/10 flex flex-col items-center gap-8">
-          <div className="bg-white p-6 rounded-3xl">
+        <div className="glass-card pm-frame p-10 rounded-ps-3xl flex flex-col items-center gap-8">
+          <div className="pm-qr p-6 rounded-xl">
             <QRCodeSVG value={`http://${ip}:8084`} size={180} level="M" />
           </div>
-          <code className="text-white font-mono text-xl font-black opacity-90 italic tracking-tight uppercase">
+          <code className="pm-mono text-ps-blue text-lg font-bold tracking-[0.14em]">
             {ip}:8084
           </code>
           <p className="text-zinc-400 text-center text-lg leading-relaxed max-w-md">
@@ -129,12 +129,12 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
       <div className="flex items-center space-x-6">
         <button
           onClick={onBack}
-          className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all border border-white/10"
+          className="pm-icon-btn p-4 rounded-lg"
         >
           <ArrowLeft className="w-7 h-7" />
         </button>
-        <h2 className="text-4xl font-extrabold text-white tracking-tight">
-          {t("manage_sources.web_title_1", "Payload")} <span className="text-ps-blue">{t("manage_sources.web_title_2", "Sources")}</span>
+        <h2 className="pm-heading text-3xl md:text-4xl">
+          {t("manage_sources.web_title_1", "Payload")} <span className="pm-heading-accent">{t("manage_sources.web_title_2", "Sources")}</span>
         </h2>
       </div>
       {/* Sources list */}
@@ -148,9 +148,9 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
             <div
               key={src.id}
               className={cn(
-                'group flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 p-5 lg:p-6 glass-card rounded-2xl border transition-all w-full min-w-0 max-w-full overflow-hidden',
+                'group flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 p-5 lg:p-6 glass-card pm-tile rounded-xl transition-all w-full min-w-0 max-w-full overflow-hidden',
                 src.removable
-                  ? 'border-white/10 hover:border-ps-blue/30'
+                  ? 'border-white/10'
                   : 'border-white/5 bg-white/[0.015]'
               )}
             >
@@ -159,16 +159,16 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
                 <div className="flex items-center gap-3 min-w-0">
                   {/* Priority index */}
                   <div className={cn(
-                    'w-9 h-9 rounded-xl flex items-center justify-center text-sm font-black shrink-0',
-                    idx === 0 ? 'bg-ps-blue/20 text-ps-blue' : 'bg-white/5 text-zinc-500'
+                    'w-9 h-9 rounded-lg flex items-center justify-center text-sm font-black shrink-0 pm-mono border',
+                    idx === 0 ? 'bg-[rgba(124,58,237,0.12)] border-[rgba(124,58,237,0.35)] text-ps-blue' : 'bg-white/5 border-white/10 text-zinc-500'
                   )}>
                     {idx + 1}
                   </div>
 
                   {/* Icon */}
-                  <div className="p-2 bg-white/5 rounded-xl shrink-0">
+                  <div className="p-2 bg-white/5 border border-white/10 rounded-lg shrink-0">
                     {src.removable
-                      ? <Globe className="w-5 h-5 text-zinc-400 group-hover:text-ps-blue transition-colors" />
+                      ? <Globe className="w-5 h-5 text-zinc-400" />
                       : <Lock className="w-5 h-5 text-ps-blue" />
                     }
                   </div>
@@ -209,7 +209,7 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
                     </>
                   )}
                   {!src.removable && (
-                    <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-ps-blue border border-ps-blue/20 bg-ps-blue/5">
+                    <span className="pm-chip">
                       {t("manage_sources.default_badge", "Default")}
                     </span>
                   )}
@@ -262,7 +262,7 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
                   </>
                 )}
                 {!src.removable && (
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-ps-blue border border-ps-blue/20 bg-ps-blue/5">
+                  <span className="pm-chip">
                     {t("manage_sources.default_badge", "Default")}
                   </span>
                 )}
@@ -276,13 +276,13 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
       {!showAddForm ? (
         <button
           onClick={() => { setShowAddForm(true); setAddError('') }}
-          className="w-full flex items-center justify-center space-x-3 py-5 border-2 border-dashed border-white/10 rounded-2xl text-zinc-500 hover:text-ps-blue hover:border-ps-blue/30 transition-all font-bold"
+          className="w-full flex items-center justify-center space-x-3 py-5 border border-dashed border-[rgba(124,58,237,0.28)] rounded-xl text-zinc-500 hover:text-ps-blue hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.04)] transition-all font-bold uppercase tracking-[0.12em] text-sm"
         >
           <Plus className="w-5 h-5" />
           <span>{t("manage_sources.add_source_btn", "Add Source")}</span>
         </button>
       ) : (
-        <form onSubmit={handleAdd} className="p-6 glass-card rounded-2xl border border-white/10 space-y-4">
+        <form onSubmit={handleAdd} className="p-6 pm-panel pm-frame rounded-ps-xl space-y-4">
           <p className="font-bold text-white text-lg">{t("manage_sources.add_new_title", "Add a New Source")}</p>
           <p className="text-sm text-zinc-500">
             {t("manage_sources.add_new_desc", "Paste the URL to a JSON file.")}
@@ -293,7 +293,7 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
               value={newUrl}
               onChange={e => setNewUrl(e.target.value)}
               placeholder="https://example.com/payloads.json"
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-5 py-3 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-ps-blue/50 transition-colors w-full"
+              className="flex-1 bg-[rgba(255,255,255,0.72)] border border-[rgba(124,58,237,0.2)] rounded-lg px-5 py-3 pm-mono text-white text-xs placeholder-zinc-600 focus:outline-none focus:border-ps-blue/70 transition-colors w-full tracking-normal"
               autoFocus
               disabled={adding}
             />
@@ -301,7 +301,7 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
               <button
                 type="submit"
                 disabled={adding || !newUrl.trim()}
-                className="flex-1 md:flex-initial flex items-center justify-center space-x-2 px-6 py-3 bg-ps-blue hover:bg-ps-blue/80 disabled:opacity-50 text-white rounded-xl font-bold transition-all whitespace-nowrap"
+                className="pm-btn-primary flex-1 md:flex-initial flex items-center justify-center space-x-2 px-6 py-3 rounded-lg font-bold uppercase tracking-[0.1em] text-xs whitespace-nowrap"
               >
                 {adding ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
                 <span>{adding ? t("manage_sources.validating", "Validating...") : t("manage_sources.add_btn", "Add")}</span>
@@ -310,7 +310,7 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
                 type="button"
                 onClick={() => { setShowAddForm(false); setNewUrl(''); setAddError('') }}
                 disabled={adding}
-                className="flex-1 md:flex-initial px-5 py-3 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition-all text-center whitespace-nowrap"
+                className="flex-1 md:flex-initial px-5 py-3 bg-white/5 hover:bg-white/10 text-white rounded-lg font-bold uppercase tracking-[0.1em] text-xs transition-colors text-center whitespace-nowrap border border-white/10"
               >
                 {t("manage_sources.cancel_btn", "Cancel")}
               </button>

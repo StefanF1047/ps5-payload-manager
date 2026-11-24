@@ -11,14 +11,15 @@ const DonateView = () => {
     <div className="flex flex-col xl:flex-row items-center justify-center min-h-[60vh] animate-fade-in max-w-6xl mx-auto py-10 xl:py-20 gap-12 xl:gap-24">
       {/* Left Column */}
       <div className="flex flex-col items-center text-center space-y-8 md:space-y-10 flex-1 px-4">
-        <div className="p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] bg-red-600/10 border border-red-600/20 text-red-500 shadow-2xl inline-flex">
-          <Heart className="w-16 h-16 md:w-20 md:h-20 fill-current animate-pulse" />
+        <div className="relative p-8 md:p-10 rounded-ps-3xl bg-red-600/10 border border-red-600/25 text-red-500 shadow-[0_0_60px_-24px_rgba(255,77,120,0.8)] inline-flex">
+          <span className="absolute inset-2 rounded-ps-2xl border border-red-500/15" />
+          <Heart className="relative w-16 h-16 md:w-20 md:h-20 fill-current animate-pulse" />
         </div>
         <div className="space-y-4 md:space-y-6">
-          <h3 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter">
+          <h3 className="pm-heading text-4xl md:text-5xl">
             {t("donate.title_1", "Support")} <span className="text-red-500">{t("donate.title_2", "Project")}</span>
           </h3>
-          <p className="text-lg md:text-2xl text-zinc-400 font-medium leading-relaxed italic">
+          <p className="text-lg md:text-xl text-zinc-400 font-medium leading-relaxed">
             {t("donate.description", "If you'd like to support my work or just say thanks, you can buy me a coffee. It's much appreciated!")}
           </p>
         </div>
@@ -27,7 +28,7 @@ const DonateView = () => {
       {/* Right Column */}
       <div className="flex items-center justify-center flex-1 px-4">
         {isPS5 ? (
-          <div className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[3rem] shadow-[0_0_60px_rgba(220,38,38,0.3)]">
+          <div className="pm-qr p-6 md:p-8 rounded-ps-xl shadow-[0_0_60px_-18px_rgba(225,29,72,0.45)]">
             <QRCodeSVG value={donateUrl} size={isPS5 ? 280 : 180} level="H" />
           </div>
         ) : (
@@ -35,7 +36,7 @@ const DonateView = () => {
             href={donateUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-10 md:px-16 py-6 md:py-8 bg-red-600 text-white text-xl md:text-3xl font-black uppercase rounded-2xl md:rounded-[2rem] hover:bg-red-500 transition-all transform active:scale-95 shadow-[0_0_50px_rgba(220,38,38,0.4)] text-center block"
+            className="px-10 md:px-14 py-6 md:py-7 bg-red-600 text-white text-lg md:text-2xl font-black uppercase tracking-[0.1em] rounded-lg hover:bg-red-500 transition-colors transform active:scale-95 shadow-[0_0_50px_-16px_rgba(255,77,120,0.9)] text-center block"
           >
             {t("donate.view_options_btn", "View Donation Options")}
           </a>

@@ -102,13 +102,19 @@ const ActiveProcessesView = ({ addToast, showConfirm }) => {
 
   return (
     <div className="space-y-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-        <h2 className="text-4xl font-extrabold text-white tracking-tight">
-          {t("active_processes.title_active", "Active")} <span className="text-ps-blue">{t("active_processes.title_processes", "Processes")}</span>
-        </h2>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
+        <div className="min-w-0">
+          <p className="pm-eyebrow mb-2">Runtime Monitor</p>
+          <h2 className="pm-heading text-3xl sm:text-4xl">
+            {t("active_processes.title_active", "Active")} <span className="pm-heading-accent">{t("active_processes.title_processes", "Processes")}</span>
+          </h2>
+        </div>
         <div className="flex items-center space-x-4">
           <label className="flex items-center space-x-3 cursor-pointer group">
-            <div className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-ps-blue focus:ring-offset-2 focus:ring-offset-black bg-white/10 group-hover:bg-white/20">
+            <div className={cn(
+              "pm-switch relative inline-flex h-6 w-11 items-center rounded-full focus:outline-none",
+              showAll && "pm-switch-on"
+            )}>
               <input
                 type="checkbox"
                 className="sr-only"
@@ -117,12 +123,12 @@ const ActiveProcessesView = ({ addToast, showConfirm }) => {
               />
               <span
                 className={cn(
-                  "inline-block h-4 w-4 transform rounded-full bg-white transition-transform",
-                  showAll ? "translate-x-6 bg-ps-blue" : "translate-x-1"
+                  "pm-switch-knob inline-block h-4 w-4 transform rounded-full transition-transform",
+                  showAll ? "translate-x-6" : "translate-x-1"
                 )}
               />
             </div>
-            <span className="text-sm font-bold text-zinc-300 select-none cursor-pointer">
+            <span className="pm-mono text-[10px] md:text-xs font-bold text-zinc-300 select-none cursor-pointer uppercase tracking-[0.12em]">
               {t("active_processes.show_all", "Show All System Processes")}
             </span>
           </label>
@@ -130,62 +136,63 @@ const ActiveProcessesView = ({ addToast, showConfirm }) => {
       </div>
 
       <section className="space-y-6">
-        <div className="flex items-center bg-black/40 border border-white/10 rounded-2xl px-4 py-3 focus-within:border-ps-blue/50 transition-colors">
-          <Search className="w-5 h-5 text-zinc-500 mr-3" />
+        <div className="flex items-center bg-[rgba(255,255,255,0.72)] border border-[rgba(124,58,237,0.2)] rounded-lg px-4 py-3 focus-within:border-ps-blue/70 transition-colors">
+          <Search className="w-5 h-5 text-ps-blue mr-3 shrink-0" />
           <input
             type="text"
             placeholder={t("active_processes.search_placeholder", "Search processes by name...")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-transparent border-none outline-none text-white w-full font-medium placeholder:text-zinc-600"
+            className="pm-mono bg-transparent border-none outline-none text-white w-full text-xs md:text-sm font-medium placeholder:text-zinc-600 tracking-normal"
           />
         </div>
 
         {loading && processes.length === 0 ? (
-          <div className="py-20 flex flex-col items-center justify-center space-y-6">
+          <div className="py-20 pm-panel pm-frame rounded-ps-2xl flex flex-col items-center justify-center space-y-6">
             <Loader2 className="w-12 h-12 text-ps-blue animate-spin" />
-            <p className="label-caps animate-pulse text-zinc-500">{t("active_processes.fetching", "Fetching process list...")}</p>
+            <p className="pm-mono text-[10px] tracking-[0.3em] uppercase text-zinc-500 animate-pulse">{t("active_processes.fetching", "Fetching process list...")}</p>
           </div>
         ) : error ? (
-          <div className="py-12 bg-red-500/10 border border-red-500/20 rounded-2xl flex flex-col items-center justify-center space-y-4">
-            <AlertTriangle className="w-10 h-10 text-red-500" />
-            <p className="text-red-400 font-bold">{t("active_processes.error_loading", "Failed to load processes")}</p>
-            <button onClick={refresh} className="px-6 py-2 bg-red-500 hover:bg-red-400 text-white rounded-xl font-bold transition-colors">
+          <div className="py-12 pm-panel pm-panel-danger pm-frame rounded-ps-2xl border-red-500/30 flex flex-col items-center justify-center space-y-4">
+            <AlertTriangle className="w-10 h-10 text-red-400" />
+            <p className="pm-mono text-red-300 font-bold uppercase tracking-[0.14em] text-sm">{t("active_processes.error_loading", "Failed to load processes")}</p>
+            <button onClick={refresh} className="px-6 py-2 bg-red-500/90 hover:bg-red-500 text-white rounded-lg font-bold uppercase tracking-[0.12em] text-xs transition-colors">
               {t("active_processes.retry", "Retry")}
             </button>
           </div>
         ) : filteredProcesses.length === 0 ? (
-          <div className="py-20 flex flex-col items-center justify-center space-y-6 bg-white/[0.02] border-2 border-dashed border-white/5 rounded-2xl">
-            <Cpu className="w-12 h-12 text-zinc-600" />
-            <p className="text-zinc-500 font-bold text-lg">{t("active_processes.no_processes", "No processes found")}</p>
+          <div className="py-20 pm-panel pm-frame rounded-ps-2xl flex flex-col items-center justify-center space-y-6">
+            <Cpu className="w-12 h-12 text-ps-blue/30" />
+            <p className="pm-mono text-zinc-500 font-bold uppercase tracking-[0.2em] text-sm">{t("active_processes.no_processes", "No processes found")}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-3">
             {filteredProcesses.map((p) => {
               const critical = p.name === 'pldmgr.elf' || p.name === 'elfldr.elf';
               return (
                 <div key={p.pid} className={cn(
-                  "glass-card p-4 md:p-6 rounded-2xl flex flex-row items-center justify-between gap-4 border-white/10 hover:border-ps-blue/20 transition-all bg-white/[0.01]"
+                  "glass-card pm-tile p-4 md:p-5 rounded-ps-xl flex flex-row items-center justify-between gap-4"
                 )}>
                   <div className="flex items-center space-x-4 min-w-0 flex-1">
                     <div className={cn(
-                      "p-3 rounded-xl flex-shrink-0",
-                      p.is_daemon ? "bg-ps-blue/10 text-ps-blue" : "bg-white/5 text-zinc-400"
+                      "p-3 rounded-lg flex-shrink-0 border",
+                      p.is_daemon ? "bg-[rgba(124,58,237,0.1)] border-[rgba(124,58,237,0.3)] text-ps-blue" : "bg-white/5 border-white/10 text-zinc-400"
                     )}>
                       <Cpu className="w-6 h-6" />
                     </div>
-                    <div className="min-w-0 flex-1 space-y-1">
-                      <h3 className="text-xl font-bold text-white truncate">{p.name}</h3>
-                      <div className="flex items-center space-x-4 text-xs font-mono text-zinc-500 uppercase tracking-wider">
-                        <span>PID: <span className="text-zinc-300">{p.pid}</span></span>
-                        <span>MEM: <span className="text-zinc-300">{p.memory.toFixed(1)} MiB</span></span>
+                    <div className="min-w-0 flex-1 space-y-1.5">
+                      <h3 className="text-base md:text-xl font-bold text-white truncate">{p.name}</h3>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="pm-chip pm-chip-muted">PID <span className="text-white">{p.pid}</span></span>
+                        <span className="pm-chip pm-chip-muted">MEM <span className="text-white">{p.memory.toFixed(1)}</span> MiB</span>
+                        {critical && <span className="pm-chip pm-chip-amber">CORE</span>}
                       </div>
                     </div>
                   </div>
                   <button
                     onClick={() => handleKill(p)}
                     disabled={critical}
-                    className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-xl font-bold text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed group-hover:opacity-100 opacity-50 flex items-center space-x-2"
+                    className="pm-icon-btn pm-icon-btn-danger px-3 md:px-4 py-2 rounded-lg font-bold text-xs md:text-sm uppercase tracking-[0.1em] disabled:opacity-30 disabled:cursor-not-allowed flex items-center space-x-2 shrink-0"
                     title={critical ? t("active_processes.cannot_kill_tooltip", "Cannot kill critical process") : t("active_processes.kill_button", "Kill")}
                   >
                     <Trash2 className="w-4 h-4" />
@@ -197,10 +204,10 @@ const ActiveProcessesView = ({ addToast, showConfirm }) => {
           </div>
         )}
 
-        <div className="flex items-start space-x-3 text-zinc-500 text-sm p-6 glass-card rounded-2xl border-white/5 bg-white/[0.01]">
+        <div className="flex items-start space-x-3 text-zinc-500 text-sm p-5 md:p-6 pm-panel rounded-ps-xl">
           <Info className="w-5 h-5 shrink-0 text-ps-blue" />
           <div>
-            <p className="font-bold text-white mb-1">{t("active_processes.note_title", "Note:")}</p>
+            <p className="pm-mono font-bold text-white mb-1 uppercase tracking-[0.14em] text-xs">{t("active_processes.note_title", "Note:")}</p>
             <p className="leading-relaxed">
               <Trans
                 i18nKey="active_processes.note_message"

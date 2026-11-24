@@ -3,13 +3,13 @@ import { cn } from '../../utils/helpers';
 import { Package } from 'lucide-react';
 
 const COLORS = [
-  ['#3b82f6', '#1d4ed8'], // blue
-  ['#10b981', '#047857'], // emerald
   ['#8b5cf6', '#6d28d9'], // violet
+  ['#db2777', '#9d174d'], // pink
+  ['#7c3aed', '#4338ca'], // purple / indigo
   ['#f59e0b', '#b45309'], // amber
-  ['#ef4444', '#b91c1c'], // red
-  ['#ec4899', '#be185d'], // pink
-  ['#14b8a6', '#0f766e'], // teal
+  ['#ec4899', '#be185d'], // rose
+  ['#6366f1', '#3730a3'], // indigo
+  ['#c084fc', '#7e22ce'], // fuchsia
 ];
 
 const stringToHash = (str) => {
@@ -27,7 +27,7 @@ const PayloadIcon = ({ icon, name, className }) => {
 
   if (isDataUri && failedIcon !== icon) {
     return (
-      <div className={cn("rounded-2xl overflow-hidden border border-white/10 shrink-0 bg-white/5", className)}>
+      <div className={cn("pm-icon rounded-xl overflow-hidden shrink-0 bg-white/5", className)}>
         <img
           src={icon}
           alt={name || 'Payload'}
@@ -44,12 +44,13 @@ const PayloadIcon = ({ icon, name, className }) => {
 
   return (
     <div 
-      className={cn("rounded-2xl flex items-center justify-center border border-white/10 shrink-0 text-white relative overflow-hidden", className)}
+      className={cn("pm-icon rounded-xl flex items-center justify-center shrink-0 text-white relative overflow-hidden", className)}
       style={{
-        background: `linear-gradient(135deg, ${colorStart}, ${colorEnd})`
+        background: `radial-gradient(circle at 28% 18%, ${colorStart}44, transparent 62%), linear-gradient(135deg, ${colorStart}, ${colorEnd})`
       }}
     >
-      <Package className="w-1/2 h-1/2 opacity-90" />
+      <span className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px)', backgroundSize: '10px 10px' }} />
+      <Package className="relative w-1/2 h-1/2 opacity-95" />
     </div>
   );
 };

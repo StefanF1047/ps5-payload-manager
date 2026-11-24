@@ -17,12 +17,12 @@ const PayloadCard = ({ payload, onClick, statusInfo, isUpdate: isUpdateProp, isI
       type="button"
       onClick={onClick}
       className={cn(
-        "group flex items-start gap-4 sm:gap-5 p-4 sm:p-5 bg-white/[0.025] hover:bg-white/[0.06] border rounded-2xl md:rounded-3xl transition-all text-left relative overflow-hidden focus:outline-none focus:border-ps-blue focus:bg-white/[0.08]",
+        "group pm-frame flex items-start gap-4 sm:gap-5 p-4 sm:p-5 glass-card rounded-xl md:rounded-2xl transition-all text-left relative overflow-hidden focus:outline-none",
         isUpdate
-          ? "border-ps-blue/20 hover:border-ps-blue/60 bg-ps-blue/[0.02]"
+          ? "border-ps-blue/30"
           : isInstalled
-          ? "border-white/5 hover:border-ps-blue/40"
-          : "border-white/10 hover:border-ps-blue/50"
+          ? "border-white/5"
+          : "border-white/10"
       )}
     >
       {/* Icon on the left */}
@@ -47,7 +47,7 @@ const PayloadCard = ({ payload, onClick, statusInfo, isUpdate: isUpdateProp, isI
 
           {payload?.version && (
             <span
-              className="text-[10px] sm:text-[11px] text-zinc-400 font-bold bg-white/10 px-2 py-0.5 rounded-md uppercase tracking-wider shrink-0 max-w-[80px] sm:max-w-[90px] truncate text-center backdrop-blur-md border border-white/5"
+              className="pm-chip pm-chip-muted shrink-0 max-w-[86px] truncate"
               title={payload.version}
             >
               {formatVersionTag(payload.version)}
@@ -88,8 +88,8 @@ const PayloadCard = ({ payload, onClick, statusInfo, isUpdate: isUpdateProp, isI
           className="absolute bottom-3 right-3 sm:bottom-3.5 sm:right-3.5 flex items-center pointer-events-none z-10"
           title={t("storage_hub.update_badge", "Update")}
         >
-          <span className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 rounded-full bg-ps-blue/25 text-ps-blue font-extrabold text-[10px] sm:text-[11px] uppercase tracking-wider border border-ps-blue/50 shadow-sm backdrop-blur-md">
-            <ArrowUpCircle className="w-3.5 h-3.5 text-ps-blue shrink-0" />
+          <span className="pm-chip pm-chip-green inline-flex items-center gap-1">
+            <ArrowUpCircle className="w-3.5 h-3.5 shrink-0" />
             <span>{t("storage_hub.update_badge", "Update")}</span>
           </span>
         </div>
@@ -98,7 +98,7 @@ const PayloadCard = ({ payload, onClick, statusInfo, isUpdate: isUpdateProp, isI
           className="absolute bottom-3.5 right-3.5 sm:bottom-4 sm:right-4 flex items-center pointer-events-none z-10"
           title={t("storage_hub.installed_badge", "Installed")}
         >
-          <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 bg-black/40 rounded-full" />
+          <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 bg-[rgba(255,255,255,0.85)] rounded-full" />
         </div>
       ) : null}
     </button>

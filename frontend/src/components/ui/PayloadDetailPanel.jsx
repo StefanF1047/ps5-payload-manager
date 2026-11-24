@@ -164,17 +164,17 @@ const PayloadDetailPanel = ({
         <button
           type="button"
           onClick={onClose}
-          className="flex items-center space-x-2.5 text-zinc-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl border border-white/5 hover:border-white/10"
+          className="pm-icon-btn flex items-center space-x-2.5 px-4 py-2 rounded-lg"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span className="font-bold text-sm uppercase tracking-wider">
+          <span className="pm-mono font-bold text-[10px] md:text-xs uppercase tracking-[0.14em]">
             {t("storage_hub.back_to_repository", "Back to Repository")}
           </span>
         </button>
       </div>
 
       {/* Hero Header Card */}
-      <div className="glass-card p-6 md:p-8 rounded-3xl border border-white/10 flex flex-col md:flex-row items-start gap-6 relative min-w-0 max-w-full overflow-hidden">
+      <div className="glass-card pm-frame p-6 md:p-8 rounded-ps-2xl flex flex-col md:flex-row items-start gap-6 relative min-w-0 max-w-full overflow-hidden">
         {/* Left: Big Icon */}
         <div className="shrink-0 self-start">
           <PayloadIcon
@@ -192,24 +192,24 @@ const PayloadDetailPanel = ({
               {payload.name || payload.filename}
             </h1>
             {payload.version && (
-              <span className="px-2.5 py-1 rounded-lg bg-ps-blue/15 text-ps-blue border border-ps-blue/30 font-extrabold text-xs sm:text-sm tracking-wider uppercase shrink-0">
+              <span className="pm-chip shrink-0">
                 {String(payload.version).startsWith('v') ? payload.version : `v${payload.version}`}
               </span>
             )}
             {isInstalled && (
-              <span className="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-extrabold text-xs sm:text-sm tracking-wider uppercase inline-flex items-center gap-1.5 shrink-0">
+              <span className="pm-chip pm-chip-green shrink-0">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>{t("payload_detail.installed", "Installed")}</span>
               </span>
             )}
             {isUpdate && !isInstalled && (
-              <span className="px-2.5 py-1 rounded-lg bg-ps-blue/20 text-ps-blue border border-ps-blue/40 font-extrabold text-xs sm:text-sm tracking-wider uppercase inline-flex items-center gap-1.5 shrink-0">
+              <span className="pm-chip pm-chip-amber shrink-0">
                 <ArrowUpCircle className="w-3.5 h-3.5" />
                 <span>{t("storage_hub.update_badge", "Update")}</span>
               </span>
             )}
             {payload.category && (
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 text-zinc-400 border border-white/10 font-bold text-xs uppercase tracking-wider shrink-0">
+              <span className="pm-chip pm-chip-muted shrink-0">
                 {t(`category.${payload.category}`, payload.category)}
               </span>
             )}
@@ -245,7 +245,7 @@ const PayloadDetailPanel = ({
                     e.preventDefault();
                     setLinkModalUrl(repoUrl);
                   }}
-                  className="flex items-center gap-1.5 text-ps-blue hover:text-white transition-colors underline-offset-2 hover:underline shrink-0 max-w-full"
+                  className="flex items-center gap-1.5 text-ps-blue hover:text-[#db2777] transition-colors underline-offset-2 hover:underline shrink-0 max-w-full"
                   title={repoUrl}
                 >
                   {isGithub ? (
@@ -293,7 +293,7 @@ const PayloadDetailPanel = ({
                 <button
                   type="button"
                   disabled
-                  className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-2xl font-extrabold text-base transition-all bg-ps-blue/60 text-white cursor-not-allowed opacity-90 shadow-lg"
+                  className="pm-on-accent w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-lg font-extrabold text-base transition-all bg-ps-blue/50 cursor-not-allowed opacity-90"
                 >
                   <Loader2 className="w-5 h-5 shrink-0 animate-spin" />
                   <span>{label}</span>
@@ -306,7 +306,7 @@ const PayloadDetailPanel = ({
                 <button
                   type="button"
                   onClick={() => onInstall(payload, srcId, srcUrl, statusInfo)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-2xl font-extrabold text-base transition-all active:scale-95 shadow-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-950/40"
+                  className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-lg font-extrabold text-base transition-all active:scale-95 bg-emerald-500 hover:bg-emerald-400 text-[#04241a]"
                 >
                   <ArrowUpCircle className="w-5 h-5 shrink-0" />
                   <span>{t("payload_detail.update", "Update")}</span>
@@ -323,7 +323,7 @@ const PayloadDetailPanel = ({
                 <button
                   type="button"
                   onClick={() => onInstall(payload, srcId, srcUrl, statusInfo)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-2xl font-extrabold text-base transition-all active:scale-95 shadow-lg bg-ps-blue hover:bg-ps-blue/80 text-white shadow-ps-blue/20"
+                  className="pm-btn-primary w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-lg font-extrabold text-base"
                 >
                   <CloudDownload className="w-5 h-5 shrink-0" />
                   <span>{t("payload_detail.install", "Install")}</span>
@@ -335,7 +335,7 @@ const PayloadDetailPanel = ({
 
             // The manager itself has no removable payload slot.
             return (
-              <div className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-2xl font-extrabold text-base bg-white/5 text-zinc-400 border border-white/10">
+              <div className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-lg font-extrabold text-base bg-white/5 text-zinc-400 border border-white/10">
                 <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400" />
                 <span>{t("payload_detail.installed", "Installed")}</span>
               </div>
@@ -344,7 +344,7 @@ const PayloadDetailPanel = ({
           {canRemove && (
             <button type="button" disabled={isInstalling}
               onClick={() => onDelete(installedSlot, payload.name || payload.filename)}
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-2xl font-extrabold text-base transition-colors bg-red-600/10 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 disabled:opacity-50 disabled:pointer-events-none">
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-lg font-extrabold text-base transition-colors bg-red-600/10 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 disabled:opacity-50 disabled:pointer-events-none">
               <Trash2 className="w-5 h-5 shrink-0" />
               <span>{t("app.dashboard.removePayload", "Remove Payload")}</span>
             </button>
@@ -359,8 +359,8 @@ const PayloadDetailPanel = ({
 
       {/* Full Description / README Section */}
       <div className="mt-8 space-y-4 min-w-0 max-w-full">
-        <div className="flex items-center justify-between border-b border-white/10 pb-3">
-          <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+        <div className="flex items-center justify-between border-b border-[rgba(124,58,237,0.14)] pb-3">
+          <h3 className="pm-mono text-base sm:text-lg font-bold text-white flex items-center gap-2 uppercase tracking-[0.16em]">
             <FileText className="w-5 h-5 text-ps-blue" />
             <span>{t("payload_detail.readme_title", "README")}</span>
           </h3>
@@ -386,14 +386,14 @@ const PayloadDetailPanel = ({
         </div>
 
         {loading ? (
-          <div className="py-16 glass-panel rounded-2xl border border-white/5 flex flex-col items-center justify-center space-y-3">
+          <div className="py-16 pm-panel rounded-ps-xl flex flex-col items-center justify-center space-y-3">
             <Loader2 className="w-8 h-8 text-ps-blue animate-spin" />
-            <p className="text-zinc-400 text-sm">
+            <p className="pm-mono text-zinc-400 text-[10px] uppercase tracking-[0.24em]">
               {t("payload_detail.loading_details", "Loading README...")}
             </p>
           </div>
         ) : detailsHtml ? (
-          <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/5 bg-black/20 min-w-0 max-w-full overflow-hidden">
+          <div className="pm-panel p-6 sm:p-8 rounded-ps-xl min-w-0 max-w-full overflow-hidden">
             <div
               ref={detailsRef}
               className="markdown-body min-w-0 max-w-full"
@@ -402,14 +402,14 @@ const PayloadDetailPanel = ({
             />
           </div>
         ) : detailsError ? (
-          <div className="py-12 glass-panel rounded-2xl border border-white/5 text-center text-zinc-500">
-            <p className="text-sm">
+          <div className="py-12 pm-panel rounded-ps-xl text-center text-zinc-500">
+            <p className="pm-mono text-[10px] uppercase tracking-[0.24em]">
               {t("payload_detail.no_readme", "No README available for this payload.")}
             </p>
           </div>
         ) : (
-          <div className="py-12 glass-panel rounded-2xl border border-white/5 text-center text-zinc-500">
-            <p className="text-sm">
+          <div className="py-12 pm-panel rounded-ps-xl text-center text-zinc-500">
+            <p className="pm-mono text-[10px] uppercase tracking-[0.24em]">
               {t("payload_detail.no_readme", "No README available for this payload.")}
             </p>
           </div>
@@ -450,7 +450,7 @@ const PayloadDetailPanel = ({
           <p>
             {t("payload_detail.external_link_confirm", "Are you sure you want to open this external link?")}
           </p>
-          <div className="p-3 bg-black/40 rounded-xl border border-white/5 font-mono text-xs text-zinc-400 break-all select-all">
+          <div className="p-3 bg-[rgba(255,255,255,0.65)] rounded-xl border border-white/10 font-mono text-xs text-zinc-400 break-all select-all">
             {linkModalUrl}
           </div>
         </div>

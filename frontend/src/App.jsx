@@ -8,8 +8,6 @@ import {
   RefreshCw,
   Globe,
   Package,
-  Heart,
-  Menu,
   Terminal,
   X,
   Star,
@@ -92,14 +90,9 @@ function App() {
     window.scrollTo(0, 0)
   }, [view])
 
-  const [sidebarExpanded, setSidebarExpanded] = useState(() => {
-    const saved = localStorage.getItem('sidebarExpanded')
-    return saved !== null ? JSON.parse(saved) : true
-  })
+  // The sidebar is a fixed, always-open navigation rail.
+  const sidebarExpanded = true
 
-  useEffect(() => {
-    localStorage.setItem('sidebarExpanded', JSON.stringify(sidebarExpanded))
-  }, [sidebarExpanded])
   const [autoloadStatus, setAutoloadStatus] = useState(null)
   const [logs, setLogs] = useState([])
   const [payloads, setPayloads] = useState([])
@@ -151,6 +144,26 @@ function App() {
     externalLinkUrl,
     setExternalLinkUrl,
   })
+
+  // Reference-inspired numeric shortcuts. Ignored while typing or when any
+  // overlay/dialog owns the screen, so gamepad/keyboard focus is never stolen.
+  useEffect(() => {
+    const routes = { '1': 'dashboard', '2': 'storage', '3': 'autoload', '4': 'processes', '5': 'settings' }
+    const onKeyDown = (event) => {
+      if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return
+      const target = event.target
+      const tag = target && target.tagName ? target.tagName.toLowerCase() : ''
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || (target && target.isContentEditable)) return
+      if (confirmModal.show || downloadModal.show || uploadConflictModal.show || showLogs || externalLinkUrl || conflictPrompt || autoloadDelayModal) return
+      if (autoloadStatus && Number.isFinite(autoloadStatus.remaining) && autoloadStatus.remaining >= 0) return
+      const next = routes[event.key]
+      if (!next) return
+      event.preventDefault()
+      navigate(next)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [navigate, confirmModal.show, downloadModal.show, uploadConflictModal.show, showLogs, externalLinkUrl, conflictPrompt, autoloadDelayModal, autoloadStatus])
   const [favoritePayloads, setFavoritePayloads] = useState(() => {
     try {
       const parsed = JSON.parse(localStorage.getItem('favoritePayloads') || '[]')
@@ -685,10 +698,13 @@ function App() {
   if (isOffline) {
     return (
       <div className="min-h-screen ps5-bg text-zinc-100 font-ps5 flex flex-col items-center justify-center p-4 text-center">
-        <div className="max-w-lg p-12 bg-black/40 rounded-3xl border border-white/5">
-          <div className="text-7xl font-light text-zinc-400 mb-12 font-mono">:(</div>
-          <h1 className="text-2xl font-bold mb-4 text-zinc-300">{t("app.offline.title", "Payload Manager is not running...")}</h1>
-          <p className="text-lg text-zinc-400 leading-relaxed">{t("app.offline.message_1", "Please ensure you have loaded")} <strong>pldmgr.elf</strong> {t("app.offline.message_2", "on your PS5 before launching this application.")}</p>
+        <div className="pm-panel pm-frame w-full max-w-lg p-10 md:p-12 rounded-ps-3xl">
+          <p className="pm-mono text-[10px] tracking-[0.4em] text-ps-blue uppercase mb-8">Signal Lost // 8084</p>
+          <div className="pm-mono text-6xl md:text-7xl font-light text-zinc-400 mb-10">:(</div>
+          <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4 text-zinc-200">{t("app.offline.title", "Payload Manager is not running...")}</h1>
+          <p className="text-base md:text-lg text-zinc-400 leading-relaxed">{t("app.offline.message_1", "Please ensure you have loaded")} <strong className="text-ps-blue">pldmgr.elf</strong> {t("app.offline.message_2", "on your PS5 before launching this application.")}</p>
+          <div className="mt-8 h-px w-full bg-gradient-to-r from-transparent via-[rgba(124,58,237,0.4)] to-transparent" />
+          <p className="pm-mono mt-4 text-[9px] tracking-[0.32em] text-zinc-600 uppercase">Awaiting payload daemon</p>
         </div>
       </div>
     )
@@ -705,9 +721,14 @@ function App() {
 
   return (
     <div className={cn(
-      "min-h-screen min-h-[100dvh] ps5-bg text-zinc-100 font-ps5 flex",
+      "min-h-screen min-h-[100dvh] ps5-bg text-zinc-100 font-ps5 flex relative",
       isPS5 ? "flex-row overflow-hidden" : "flex-col md:flex-row md:overflow-hidden"
     )}>
+      <div aria-hidden="true" className="pm-fx">
+        <div className="pm-fx__orb pm-fx__orb--a" />
+        <div className="pm-fx__orb pm-fx__orb--b" />
+        <div className="pm-fx__vignette" />
+      </div>
       {/* Toast Container */}
       <div data-toast-container className="fixed top-4 right-4 left-4 md:top-8 md:right-8 md:left-auto md:w-[420px] z-[2000] flex flex-col space-y-3 pointer-events-none max-h-[calc(100vh-2rem)] md:max-h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar">
         {toasts.map(t => (
@@ -722,8 +743,8 @@ function App() {
             <span className="text-ps-blue font-black uppercase italic tracking-tighter text-2xl">{downloadModal.name}</span>
             <span className="text-white font-bold text-xl">{downloadModal.progress}%</span>
           </div>
-          <div className="h-4 bg-white/5 rounded-full overflow-hidden border border-white/10 p-0.5">
-            <div className="h-full bg-ps-blue rounded-full transition-all duration-500" style={{ width: `${downloadModal.progress}%` }} />
+          <div className="pm-meter h-3">
+            <span style={{ width: `${downloadModal.progress}%` }} />
           </div>
         </div>
       </Modal>
@@ -734,8 +755,8 @@ function App() {
         onClose={() => setConfirmModal({ show: false })}
         footer={
           <>
-            <button onClick={() => setConfirmModal({ show: false })} className="flex-1 px-8 py-5 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold transition-all uppercase tracking-tight">{t("app.buttons.cancel", "Cancel")}</button>
-            <button onClick={confirmModal.onConfirm} className="flex-1 px-8 py-5 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-bold transition-all uppercase tracking-tight">{t("app.buttons.confirm", "Confirm")}</button>
+            <button onClick={() => setConfirmModal({ show: false })} className="flex-1 px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold transition-all uppercase tracking-[0.12em] text-xs md:text-sm border border-white/10">{t("app.buttons.cancel", "Cancel")}</button>
+            <button onClick={confirmModal.onConfirm} className="flex-1 px-8 py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold transition-all uppercase tracking-[0.12em] text-xs md:text-sm shadow-[0_0_26px_-10px_rgba(255,77,120,0.9)]">{t("app.buttons.confirm", "Confirm")}</button>
           </>
         }
       >
@@ -751,21 +772,21 @@ function App() {
             <button
               type="button"
               onClick={() => setUploadConflictModal({ show: false, file: null, folderName: '' })}
-              className="flex-1 py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold uppercase text-sm transition-all"
+              className="flex-1 py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold uppercase text-xs tracking-[0.12em] transition-all border border-white/10"
             >
               {t("app.buttons.cancel", "Cancel")}
             </button>
             <button
               type="button"
               onClick={() => performUpload(uploadConflictModal.file, 'replace')}
-              className="flex-1 py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-black uppercase text-sm transition-all shadow-lg"
+              className="flex-1 py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-black uppercase text-xs tracking-[0.12em] transition-all shadow-lg"
             >
               {t("storage_hub.conflict_replace", "Replace")}
             </button>
             <button
               type="button"
               onClick={() => performUpload(uploadConflictModal.file, 'keep_both')}
-              className="flex-1 py-3 px-4 rounded-xl bg-ps-blue hover:bg-ps-blue/80 text-white font-black uppercase text-sm transition-all shadow-lg"
+              className="flex-1 py-3 px-4 rounded-xl bg-ps-blue text-white hover:bg-[#db2777] font-black uppercase text-xs tracking-[0.12em] transition-all shadow-lg"
             >
               {t("storage_hub.conflict_keep_both", "Keep both")}
             </button>
@@ -782,52 +803,35 @@ function App() {
       </Modal>
 
       <aside className={cn(
-        "flex-col bg-black/40 border-r border-white/5 transition-all duration-500 z-[100] h-screen",
-        isPS5 ? "flex" : "hidden md:flex",
-        sidebarExpanded ? "w-80" : "w-24"
+        "pm-sidebar flex-col z-[100] w-80 shrink-0 h-[calc(100vh-2rem)] my-4 ml-4",
+        isPS5 ? "flex" : "hidden md:flex"
       )}>
         <div className="p-6 flex flex-col h-full">
-          <div className="flex items-center mb-12 h-10">
-            <button
-              onClick={() => setSidebarExpanded(!sidebarExpanded)}
-              className="p-3 bg-white/5 hover:bg-ps-blue hover:text-white rounded-xl transition-all mr-4 shrink-0"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-            <div className={cn("flex items-center space-x-3 transition-all duration-500", sidebarExpanded ? "opacity-100 scale-100" : "opacity-0 scale-90 absolute pointer-events-none")}>
-              <div className="p-2 bg-ps-blue rounded-xl">
-                <LogoIcon className="w-6 h-6 text-white" />
+          <div className="flex items-center mb-10 h-12">
+            <div className="flex items-center gap-3">
+              <div className="pm-brand-mark">
+                <LogoIcon className="w-5 h-5" />
               </div>
-              <span className="text-2xl font-bold tracking-tight text-white">PLDMGR</span>
+              <span className="pm-brand-title block min-w-0 truncate text-base">Payload Manager</span>
             </div>
           </div>
 
-          <nav className="flex-1 space-y-2">
-            <NavButton sidebar sidebarExpanded={sidebarExpanded} active={view === 'dashboard'} onClick={() => navigate('dashboard')} icon={LayoutDashboard} label={t("app.nav.dashboard", "Dashboard")} />
-            <NavButton sidebar sidebarExpanded={sidebarExpanded} active={view === 'storage'} onClick={() => navigate('storage')} icon={Database} label={t("app.nav.storage", "Get Payloads")} />
-            <NavButton sidebar sidebarExpanded={sidebarExpanded} active={view === 'autoload'} onClick={() => navigate('autoload')} icon={RefreshCw} label={t("app.nav.autoload", "Autoload")} />
-            <NavButton sidebar sidebarExpanded={sidebarExpanded} active={view === 'processes'} onClick={() => navigate('processes')} icon={Cpu} label={t("app.nav.processes", "Active Processes")} />
-            <NavButton sidebar sidebarExpanded={sidebarExpanded} active={view === 'settings'} onClick={() => navigate('settings')} icon={Settings} label={t("app.nav.settings", "Settings")} />
+          <nav className="flex-1 overflow-y-auto hide-scrollbar pb-2">
+            {sidebarExpanded && <p className="pm-nav-label">System</p>}
+            <NavButton shortcut="1" sidebar sidebarExpanded={sidebarExpanded} active={view === 'dashboard'} onClick={() => navigate('dashboard')} icon={LayoutDashboard} label={t("app.nav.dashboard", "Dashboard")} />
+            <NavButton shortcut="2" sidebar sidebarExpanded={sidebarExpanded} active={view === 'storage'} onClick={() => navigate('storage')} icon={Database} label={t("app.nav.storage", "Get Payloads")} />
+            {sidebarExpanded && <p className="pm-nav-label">Automation</p>}
+            <NavButton shortcut="3" sidebar sidebarExpanded={sidebarExpanded} active={view === 'autoload'} onClick={() => navigate('autoload')} icon={RefreshCw} label={t("app.nav.autoload", "Autoload")} />
+            <NavButton shortcut="4" sidebar sidebarExpanded={sidebarExpanded} active={view === 'processes'} onClick={() => navigate('processes')} icon={Cpu} label={t("app.nav.processes", "Active Processes")} />
+            {sidebarExpanded && <p className="pm-nav-label">Config</p>}
+            <NavButton shortcut="5" sidebar sidebarExpanded={sidebarExpanded} active={view === 'settings'} onClick={() => navigate('settings')} icon={Settings} label={t("app.nav.settings", "Settings")} />
           </nav>
-
-          <div className="pt-6 border-t border-white/5">
-            <NavButton
-              sidebar
-              sidebarExpanded={sidebarExpanded}
-              active={view === 'donate'}
-              onClick={() => navigate('donate')}
-              icon={Heart}
-              label={t("app.nav.donate", "Donate")}
-              className={view === 'donate' ? "bg-red-600" : "text-red-500 hover:bg-red-600/10"}
-              isDonate
-            />
-          </div>
         </div>
       </aside>
 
       {/* MOBILE BOTTOM NAV */}
       <nav className={cn(
-        "fixed bottom-0 inset-x-0 z-[100] bg-black/80 border-t border-white/5 h-[calc(5rem+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] flex items-center overflow-x-auto hide-scrollbar",
+        "fixed bottom-0 inset-x-0 z-[100] pm-mobilenav h-[calc(5rem+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] flex items-center overflow-x-auto hide-scrollbar rounded-none",
         isPS5 ? "hidden" : "md:hidden"
       )}>
         <NavButton active={view === 'dashboard'} onClick={() => navigate('dashboard')} icon={LayoutDashboard} label={t("app.nav.dashboard", "Dashboard")} mobileLabel={t("app.nav.home_mobile", "Home")} />
@@ -835,20 +839,11 @@ function App() {
         <NavButton showSeparator active={view === 'autoload'} onClick={() => navigate('autoload')} icon={RefreshCw} label={t("app.nav.autoload", "Autoload")} mobileLabel={t("app.nav.auto_mobile", "Auto")} />
         <NavButton showSeparator active={view === 'processes'} onClick={() => navigate('processes')} icon={Cpu} label={t("app.nav.processes", "Active Processes")} mobileLabel={t("app.nav.processes_mobile", "Processes")} />
         <NavButton showSeparator active={view === 'settings'} onClick={() => navigate('settings')} icon={Settings} label={t("app.nav.settings", "Settings")} mobileLabel={t("app.nav.settings", "Settings")} />
-        <NavButton
-          showSeparator
-          active={view === 'donate'}
-          onClick={() => navigate('donate')}
-          icon={Heart}
-          label={t("app.nav.donate", "Donate")}
-          mobileLabel={t("app.nav.donate", "Donate")}
-          isDonate
-        />
       </nav>
 
       {/* MAIN CONTENT AREA */}
       <div className={cn(
-        "flex flex-col relative min-w-0",
+        "flex flex-col relative min-w-0 z-10",
         isPS5 ? "h-screen flex-1 min-h-0" : "md:h-screen md:flex-1 md:min-h-0"
       )}>
         <main ref={mainRef} className={cn(
@@ -970,60 +965,42 @@ function App() {
                 isFavoriteEditMode ? "-m-4 md:-m-6 p-4 md:p-6 border-2 border-yellow-400/50 bg-yellow-400/5 rounded-ps-2xl" :
                 isManageMode ? "-m-4 md:-m-6 p-4 md:p-6 border-2 border-red-500/50 bg-red-500/5 rounded-ps-2xl" : ""
               )}>
-                <div className="flex items-center justify-between">
-                  <h2 className={cn(
-                    "text-4xl font-extrabold tracking-tight",
-                    isFavoriteEditMode ? "text-yellow-400" : isManageMode ? "text-red-500" : "text-white"
-                  )}>
-                    {isFavoriteEditMode ? (
-                      t("app.dashboard.editFavorites", "Edit Favorites")
-                    ) : isManageMode ? (
-                      t("app.dashboard.removePayload", "Remove Payload")
-                    ) : (
-                      <>{t("app.dashboard.title_1", "Launch")} <span className="text-ps-blue">{t("app.dashboard.title_2", "Payload")}</span></>
-                    )}
-                  </h2>
-                  <div className="flex items-center space-x-3">
-                    <button
-                      onClick={() => { setIsManageMode(!isManageMode); setIsFavoriteEditMode(false); }}
-                      className={cn(
-                        "p-3 rounded-full transition-colors flex items-center justify-center",
-                        isManageMode ? "bg-red-600/20 text-red-500" : "bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10"
-                      )}
-                      title={t("app.dashboard.removePayload", "Remove Payload")}
-                    >
-                      <Trash2 className={cn("w-6 h-6", isManageMode && "text-red-500")} />
-                    </button>
-                    <button
-                      onClick={() => { setIsFavoriteEditMode(!isFavoriteEditMode); setIsManageMode(false); }}
-                      className={cn(
-                        "p-3 rounded-full transition-colors flex items-center justify-center",
-                        isFavoriteEditMode ? "bg-yellow-400/20 text-yellow-400" : "bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10"
-                      )}
-                      title={t("app.dashboard.editFavorites", "Edit Favorites")}
-                    >
-                      <Star className={cn("w-6 h-6", isFavoriteEditMode && "fill-yellow-400")} />
-                    </button>
-                  </div>
+                <div className="flex items-center justify-end gap-3 md:gap-4 -mb-2">
+                  <button
+                    onClick={() => { setIsManageMode(!isManageMode); setIsFavoriteEditMode(false); }}
+                    className={cn("pm-fab", isManageMode ? "pm-fab-danger bg-red-600/20" : "")}
+                    title={t("app.dashboard.removePayload", "Remove Payload")}
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => { setIsFavoriteEditMode(!isFavoriteEditMode); setIsManageMode(false); }}
+                    className={cn("pm-fab", isFavoriteEditMode ? "pm-fab-gold bg-yellow-400/20" : "")}
+                    title={t("app.dashboard.editFavorites", "Edit Favorites")}
+                  >
+                    <Star className={cn("w-5 h-5", isFavoriteEditMode && "fill-yellow-400")} />
+                  </button>
                 </div>
                 {loadingPayloads ? (
                   <div className={gridCols}>
                     {Array.from({ length: 4 }).map((_, i) => (
-                      <div key={i} className="glass-card p-6 rounded-ps-xl flex flex-col space-y-2 border-white/5">
-                        <div className="h-7 w-40 bg-white/5 rounded-lg" />
-                        <div className="h-3 w-20 bg-white/5 rounded-md opacity-50" />
+                      <div key={i} className="glass-card pm-frame p-6 rounded-ps-xl flex flex-col space-y-3 border-white/5">
+                        <div className="pm-skeleton h-6 w-40 rounded-md" />
+                        <div className="pm-skeleton h-3 w-20 rounded-md" />
                       </div>
                     ))}
                   </div>
                 ) : dashboardItems.length === 0 ? (
                   <div className={gridCols}>
-                    <div className="col-span-full py-20 border-2 border-dashed border-white/5 rounded-ps-xl flex flex-col items-center justify-center space-y-6 bg-white/[0.01]">
-                      <Package className="w-16 h-16 text-white/10" />
-                      <div className="text-center">
-                        <p className="text-white font-extrabold tracking-tight text-2xl">{t("app.dashboard.empty.title", "Empty Library")}</p>
-                        <p className="text-zinc-500 font-medium">{t("app.dashboard.empty.message", "Add payloads from the Cloud Hub to get started.")}</p>
+                    <div className="col-span-full pm-panel pm-frame py-16 md:py-20 rounded-ps-2xl flex flex-col items-center justify-center space-y-6">
+                      <div className="w-20 h-20 rounded-full border border-[rgba(124,58,237,0.28)] bg-[rgba(124,58,237,0.06)] flex items-center justify-center">
+                        <Package className="w-9 h-9 text-ps-blue" />
                       </div>
-                      <button onClick={() => { setStorageScrollTarget('cloud-repository'); navigate('storage'); }} className="px-8 py-3 bg-ps-blue text-white rounded-xl font-bold tracking-tight">{t("app.dashboard.empty.button", "Open Repository")}</button>
+                      <div className="text-center px-6">
+                        <p className="pm-mono text-white font-black tracking-[0.16em] uppercase text-lg md:text-xl">{t("app.dashboard.empty.title", "Empty Library")}</p>
+                        <p className="text-zinc-500 font-medium mt-2">{t("app.dashboard.empty.message", "Add payloads from the Cloud Hub to get started.")}</p>
+                      </div>
+                      <button onClick={() => { setStorageScrollTarget('cloud-repository'); navigate('storage'); }} className="pm-btn-primary px-8 py-3 rounded-xl font-black uppercase tracking-[0.14em] text-xs md:text-sm">{t("app.dashboard.empty.button", "Open Repository")}</button>
                     </div>
                   </div>
                 ) : (
@@ -1031,14 +1008,15 @@ function App() {
                     {activeFavoriteItems.length > 0 && (
                       <div className="space-y-4">
                         <div className="flex items-center gap-3">
-                          <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                          <span className="text-sm font-bold tracking-widest uppercase text-yellow-400">{txtFavorites}</span>
+                          <Star className="w-4 h-4 text-[#b45309] fill-[#b45309]" />
+                          <span className="pm-mono text-[10px] font-bold tracking-[0.3em] uppercase text-[#b45309]">{txtFavorites}</span>
+                          <span className="flex-1 h-px bg-gradient-to-r from-[rgba(180,83,9,0.35)] to-transparent" />
                         </div>
                         <div className={gridCols}>
                           {activeFavoriteItems.map(makeCard)}
                         </div>
-                        <div className="border-t border-white/5 pt-8">
-                          <p className="text-sm font-bold tracking-widest uppercase text-zinc-500 mb-4">{txtOthers}</p>
+                        <div className="border-t border-[rgba(124,58,237,0.12)] pt-8">
+                          <p className="pm-eyebrow mb-4">{txtOthers}</p>
                           <div className={gridCols}>
                             {unfavorited.map(makeCard)}
                           </div>
@@ -1147,12 +1125,13 @@ function App() {
       </div>
 
       {loading && (
-        <div className="fixed inset-0 bg-ps-black/95 z-[9999] flex flex-col items-center justify-center px-6 py-10" role="status" aria-live="polite">
-          <div className="w-full max-w-xl flex flex-col items-center text-center space-y-6">
+        <div className="fixed inset-0 pm-overlay-bg z-[9999] flex flex-col items-center justify-center px-6 py-10" role="status" aria-live="polite">
+          <div className="pm-panel pm-panel-glow pm-frame w-full max-w-xl flex flex-col items-center text-center space-y-6 p-8 md:p-12 rounded-ps-3xl">
+            <p className="pm-mono text-[9px] tracking-[0.4em] text-ps-blue uppercase">Deploy Sequence</p>
             <PayloadIcon
               icon={activeLoadingPayload?.icon}
               name={activeLoadingPayload?.path?.split('/').pop() || activeLoadingPayload?.name}
-              className="w-24 h-24 md:w-28 md:h-28 text-4xl shadow-lg"
+              className="w-20 h-20 md:w-24 md:h-24 text-3xl"
             />
             <div className="w-full space-y-4">
               <PayloadName
@@ -1164,38 +1143,40 @@ function App() {
               />
               <div className="flex flex-wrap items-center justify-center gap-2">
                 {activeLoadingPayload?.version && (
-                  <span className="text-sm text-zinc-400 font-bold bg-white/10 px-3 py-1 rounded-lg">
+                  <span className="pm-chip pm-chip-muted">
                     {activeLoadingPayload.version}
                   </span>
                 )}
                 {activeLoadingPayload?.sourceName && (
-                  <span className="inline-flex items-center gap-2 text-sm text-zinc-400 font-medium bg-white/10 px-3 py-1 rounded-lg max-w-full" title={activeLoadingPayload.sourceName}>
-                    <Globe className="w-4 h-4 shrink-0" />
+                  <span className="pm-chip pm-chip-muted max-w-full normal-case tracking-normal" title={activeLoadingPayload.sourceName}>
+                    <Globe className="w-4 h-4 shrink-0 opacity-70" />
                     <span className="truncate">{formatSourceTag(activeLoadingPayload.sourceName)}</span>
                   </span>
                 )}
               </div>
             </div>
             <div className="ps5-robust-spinner !w-10 !h-10 !border-4" />
-            <p className="text-sm text-ps-blue font-medium tracking-wide">{t("app.loading.subtitle", "LAUNCHING PAYLOAD...")}</p>
+            <p className="pm-mono text-[10px] md:text-xs text-ps-blue font-bold tracking-[0.32em] uppercase">{t("app.loading.subtitle", "LAUNCHING PAYLOAD...")}</p>
           </div>
         </div>
       )}
       {showLogs && (
-        <div className="fixed inset-0 z-[9999] bg-[#08080a] flex flex-col animate-in fade-in duration-300">
-          <div className="p-6 md:p-8 border-b border-white/10 flex items-center justify-between bg-[#08080a]/95 backdrop-blur-xl sticky top-0 z-10">
-            <div className="flex items-center space-x-4">
-              <Terminal className="w-8 h-8 text-ps-blue" />
-              <h3 className="text-3xl font-black text-white uppercase italic tracking-tighter">{t("app.logs.title", "Logs")}</h3>
+        <div className="fixed inset-0 z-[9999] pm-overlay-bg flex flex-col animate-in fade-in duration-300">
+          <div className="p-4 md:p-6 border-b border-[rgba(17,45,90,0.14)] flex items-center justify-between bg-[rgba(255,255,255,0.85)] sticky top-0 z-10">
+            <div className="flex items-center space-x-3 md:space-x-4 min-w-0">
+              <span className="w-1 h-6 md:h-8 bg-ps-blue shadow-[0_0_14px_rgba(124,58,237,0.8)]" />
+              <Terminal className="w-6 h-6 md:w-7 md:h-7 text-ps-blue shrink-0" />
+              <h3 className="pm-mono text-xl md:text-2xl font-black text-white uppercase tracking-[0.18em] truncate">{t("app.logs.title", "Logs")}</h3>
+              <span className="pm-chip pm-chip-muted hidden sm:!inline-flex">{logs.length}</span>
             </div>
             <button
               onClick={() => setShowLogs(false)}
-              className="p-4 rounded-2xl bg-white/5 hover:bg-red-600 hover:text-white transition-all border border-white/10 group"
+              className="pm-icon-btn p-3 rounded-xl group"
             >
-              <X className="w-8 h-8 transition-transform group-hover:rotate-90" />
+              <X className="w-6 h-6 md:w-7 md:h-7 transition-transform group-hover:rotate-90" />
             </button>
           </div>
-          <div className="flex-1 overflow-hidden bg-black/20">
+          <div className="flex-1 overflow-hidden bg-[rgba(255,255,255,0.45)]">
             <LogViewer logs={logs} />
           </div>
         </div>

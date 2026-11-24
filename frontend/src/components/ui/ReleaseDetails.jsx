@@ -30,14 +30,14 @@ export default function ReleaseDetails({ payload, onMarkdownClick }) {
   }, [expanded, notes, payload]);
 
   return (
-    <details className="group mt-8 glass-panel rounded-2xl border border-white/10 bg-black/20 min-w-0 max-w-full overflow-hidden"
+    <details className="group mt-8 pm-panel pm-frame rounded-ps-xl min-w-0 max-w-full overflow-hidden"
       onToggle={event => setExpanded(event.currentTarget.open)}>
-      <summary className="release-details-summary flex items-center gap-2 p-5 sm:p-6 list-none cursor-pointer text-lg sm:text-xl font-bold text-white focus-visible:outline-ps-blue">
+      <summary className="release-details-summary flex items-center gap-2 p-5 sm:p-6 list-none cursor-pointer pm-mono text-sm sm:text-base font-bold text-white uppercase tracking-[0.14em] focus-visible:outline-ps-blue">
         <Sparkles className="w-5 h-5 text-ps-blue shrink-0" />
         <span className="flex-1">{t('payload_detail.release_details', 'Release details')}</span>
         <ChevronDown className="w-5 h-5 shrink-0 group-open:rotate-180 transition-transform" />
       </summary>
-      {expanded && <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+      {expanded && <div className="px-5 pb-5 sm:px-6 sm:pb-6 border-t border-[rgba(124,58,237,0.1)] pt-4">
         {loading ? <div className="flex items-center gap-2 text-sm text-zinc-400" role="status">
           <Loader2 className="w-4 h-4 animate-spin" />
           {t('payload_detail.loading_release', 'Loading release details...')}
