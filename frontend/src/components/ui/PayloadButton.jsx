@@ -30,7 +30,7 @@ const PayloadButton = ({
   const isUsb = Boolean(safePath && safePath.startsWith('/mnt/usb'))
   const iconName = safePath ? safePath.split('/').pop() : (displayName || 'Payload')
   // Kept for potential re-enable of the BIN/ELF chip below.
-  const fileKind = /\.bin$/i.test(safePath) ? 'BIN' : 'ELF'
+  // const fileKind = /\.bin$/i.test(safePath) ? 'BIN' : 'ELF'
 
   const handleClick = (e) => {
     if (isManageMode) {
