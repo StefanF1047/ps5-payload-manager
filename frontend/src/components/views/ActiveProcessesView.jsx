@@ -136,7 +136,7 @@ const ActiveProcessesView = ({ addToast, showConfirm }) => {
       </div>
 
       <section className="space-y-6">
-        <div className="flex items-center bg-[rgba(255,255,255,0.72)] border border-[rgba(124,58,237,0.2)] rounded-lg px-4 py-3 focus-within:border-ps-blue/70 transition-colors">
+        <div className="flex items-center bg-ps-card border border-[rgba(var(--pm-accent-rgb),0.2)] rounded-lg px-4 py-3 focus-within:border-ps-blue/70 transition-colors">
           <Search className="w-5 h-5 text-ps-blue mr-3 shrink-0" />
           <input
             type="text"
@@ -176,7 +176,7 @@ const ActiveProcessesView = ({ addToast, showConfirm }) => {
                   <div className="flex items-center space-x-4 min-w-0 flex-1">
                     <div className={cn(
                       "p-3 rounded-lg flex-shrink-0 border",
-                      p.is_daemon ? "bg-[rgba(124,58,237,0.1)] border-[rgba(124,58,237,0.3)] text-ps-blue" : "bg-white/5 border-white/10 text-zinc-400"
+                      p.is_daemon ? "bg-[rgba(var(--pm-accent-rgb),0.1)] border-[rgba(var(--pm-accent-rgb),0.3)] text-ps-blue" : "bg-white/5 border-white/10 text-zinc-400"
                     )}>
                       <Cpu className="w-6 h-6" />
                     </div>

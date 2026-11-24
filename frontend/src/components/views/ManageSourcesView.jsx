@@ -160,7 +160,7 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
                   {/* Priority index */}
                   <div className={cn(
                     'w-9 h-9 rounded-lg flex items-center justify-center text-sm font-black shrink-0 pm-mono border',
-                    idx === 0 ? 'bg-[rgba(124,58,237,0.12)] border-[rgba(124,58,237,0.35)] text-ps-blue' : 'bg-white/5 border-white/10 text-zinc-500'
+                    idx === 0 ? 'bg-[rgba(var(--pm-accent-rgb),0.12)] border-[rgba(var(--pm-accent-rgb),0.35)] text-ps-blue' : 'bg-white/5 border-white/10 text-zinc-500'
                   )}>
                     {idx + 1}
                   </div>
@@ -276,7 +276,7 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
       {!showAddForm ? (
         <button
           onClick={() => { setShowAddForm(true); setAddError('') }}
-          className="w-full flex items-center justify-center space-x-3 py-5 border border-dashed border-[rgba(124,58,237,0.28)] rounded-xl text-zinc-500 hover:text-ps-blue hover:border-[rgba(124,58,237,0.6)] hover:bg-[rgba(124,58,237,0.04)] transition-all font-bold uppercase tracking-[0.12em] text-sm"
+          className="w-full flex items-center justify-center space-x-3 py-5 border border-dashed border-[rgba(var(--pm-accent-rgb),0.28)] rounded-xl text-zinc-500 hover:text-ps-blue hover:border-[rgba(var(--pm-accent-rgb),0.6)] hover:bg-[rgba(var(--pm-accent-rgb),0.04)] transition-all font-bold uppercase tracking-[0.12em] text-sm"
         >
           <Plus className="w-5 h-5" />
           <span>{t("manage_sources.add_source_btn", "Add Source")}</span>
@@ -293,7 +293,7 @@ const ManageSourcesView = ({ onBack, ip, addToast, showConfirm }) => {
               value={newUrl}
               onChange={e => setNewUrl(e.target.value)}
               placeholder="https://example.com/payloads.json"
-              className="flex-1 bg-[rgba(255,255,255,0.72)] border border-[rgba(124,58,237,0.2)] rounded-lg px-5 py-3 pm-mono text-white text-xs placeholder-zinc-600 focus:outline-none focus:border-ps-blue/70 transition-colors w-full tracking-normal"
+              className="flex-1 bg-ps-card border border-[rgba(var(--pm-accent-rgb),0.2)] rounded-lg px-5 py-3 pm-mono text-white text-xs placeholder-zinc-600 focus:outline-none focus:border-ps-blue/70 transition-colors w-full tracking-normal"
               autoFocus
               disabled={adding}
             />

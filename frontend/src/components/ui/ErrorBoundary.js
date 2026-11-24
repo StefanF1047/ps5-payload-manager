@@ -56,7 +56,7 @@ class ErrorBoundary extends React.Component {
 
       return React.createElement(
         'div',
-        { className: 'min-h-screen bg-[#e9effa] text-zinc-100 font-mono p-6 sm:p-10 flex flex-col items-center justify-center z-[999999] relative' },
+        { className: 'min-h-screen bg-ps-black text-zinc-100 font-mono p-6 sm:p-10 flex flex-col items-center justify-center z-[999999] relative' },
         React.createElement(
           'div',
           { className: 'w-full max-w-4xl bg-red-950/20 border-2 border-red-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6' },
@@ -70,13 +70,13 @@ class ErrorBoundary extends React.Component {
             'div',
             { className: 'space-y-2' },
             React.createElement('span', { className: 'text-xs uppercase tracking-wider text-red-400 font-bold' }, 'Error Message:'),
-            React.createElement('div', { className: 'bg-[rgba(255,255,255,0.72)] border border-red-500/30 rounded-xl p-4 text-red-200 text-xs sm:text-sm font-mono break-all whitespace-pre-wrap select-text max-h-40 overflow-y-auto' }, errorMessage)
+            React.createElement('div', { className: 'bg-ps-card border border-red-500/30 rounded-xl p-4 text-red-200 text-xs sm:text-sm font-mono break-all whitespace-pre-wrap select-text max-h-40 overflow-y-auto' }, errorMessage)
           ),
           (errorStack || componentStack) ? React.createElement(
             'div',
             { className: 'space-y-2' },
             React.createElement('span', { className: 'text-xs uppercase tracking-wider text-zinc-400 font-bold' }, 'Stack Trace:'),
-            React.createElement('div', { className: 'bg-[rgba(255,255,255,0.72)] border border-white/10 rounded-xl p-4 text-zinc-400 text-[11px] sm:text-xs font-mono break-all whitespace-pre-wrap select-text max-h-60 overflow-y-auto' }, `${errorStack}${componentStack ? `\n\nComponent Stack:${componentStack}` : ''}`)
+            React.createElement('div', { className: 'bg-ps-card border border-white/10 rounded-xl p-4 text-zinc-400 text-[11px] sm:text-xs font-mono break-all whitespace-pre-wrap select-text max-h-60 overflow-y-auto' }, `${errorStack}${componentStack ? `\n\nComponent Stack:${componentStack}` : ''}`)
           ) : null,
           React.createElement(
             'div',

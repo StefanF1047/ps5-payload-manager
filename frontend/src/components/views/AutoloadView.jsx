@@ -269,10 +269,10 @@ const AutoloadView = ({
                 </button>
               )
             })}
-            <div className="pt-2 border-t border-[rgba(124,58,237,0.12)] mt-1">
+            <div className="pt-2 border-t border-[rgba(var(--pm-accent-rgb),0.12)] mt-1">
               <button
                 onClick={() => setShowDelayModal(true)}
-                className="group glass-card pm-tile pl-4 pr-3 py-2.5 rounded-ps-xl flex items-center justify-between border border-dashed border-[rgba(124,58,237,0.3)] focus:border-ps-blue focus:outline-none transition-all text-left relative min-h-[58px] w-full"
+                className="group glass-card pm-tile pl-4 pr-3 py-2.5 rounded-ps-xl flex items-center justify-between border border-dashed border-[rgba(var(--pm-accent-rgb),0.3)] focus:border-ps-blue focus:outline-none transition-all text-left relative min-h-[58px] w-full"
               >
                 <div className="flex items-center gap-3.5 min-w-0 pr-2">
                   <div className="w-10 h-10 text-lg shrink-0 rounded-lg flex items-center justify-center border border-ps-blue/40 bg-ps-blue/10 text-ps-blue">
@@ -325,7 +325,7 @@ const AutoloadView = ({
                         ) : (
                           <PayloadIcon icon={meta?.icon} name={meta?.iconName} className="w-11 h-11 text-xl shrink-0" />
                         )}
-                        <div className="pm-mono absolute -top-1.5 -left-1.5 z-20 w-5 h-5 rounded-full bg-ps-blue border border-[#ffffff] flex items-center justify-center text-[10px] font-black text-white shadow-[0_0_10px_rgba(124,58,237,0.8)] select-none">
+                        <div className="pm-mono absolute -top-1.5 -left-1.5 z-20 w-5 h-5 rounded-full bg-ps-blue border border-[var(--pm-surface)] flex items-center justify-center text-[10px] font-black text-white shadow-[0_0_10px_rgba(var(--pm-accent-rgb),0.8)] select-none">
                           {i + 1}
                         </div>
                       </div>
@@ -511,11 +511,11 @@ const AutoloadView = ({
                 placeholder={t("autoload.delay_modal.placeholder", "e.g. 2500")}
                 value={customDelay}
                 onChange={(e) => setCustomDelay(e.target.value)}
-                className="flex-1 bg-white/5 border border-[rgba(124,58,237,0.2)] rounded-lg p-4 md:p-5 text-white pm-mono text-xl md:text-2xl focus:border-ps-blue outline-none transition-all"
+                className="flex-1 bg-white/5 border border-[rgba(var(--pm-accent-rgb),0.2)] rounded-lg p-4 md:p-5 text-white pm-mono text-xl md:text-2xl focus:border-ps-blue outline-none transition-all"
               />
               <button
                 onClick={() => customDelay && addDelay(parseInt(customDelay))}
-                className="py-4 md:py-0 px-8 md:px-10 bg-ps-blue text-white rounded-lg font-black uppercase tracking-[0.12em] text-lg md:text-xl hover:bg-[#db2777] transition-colors shrink-0"
+                className="py-4 md:py-0 px-8 md:px-10 bg-ps-blue text-white rounded-lg font-black uppercase tracking-[0.12em] text-lg md:text-xl hover:bg-ps-blue transition-colors shrink-0"
               >
                 {t("autoload.delay_modal.add_btn", "Add")}
               </button>

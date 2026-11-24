@@ -7,7 +7,25 @@
     <link rel="icon" type="image/png" href="/icon.png" />
     <link rel="apple-touch-icon" href="/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#e9effa" />
     <meta name="emoji-attribution" content="Twemoji graphics by Twitter, Inc. and contributors; CC BY 4.0 https://creativecommons.org/licenses/by/4.0/; source https://github.com/jdecked/twemoji/tree/v15.1.0." />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('ps5pm.theme');
+          if (theme !== 'dark' && theme !== 'light') theme = 'light';
+          var accents = ['violet', 'blue', 'teal', 'emerald', 'amber', 'rose', 'red'];
+          var accent = localStorage.getItem('ps5pm.accent');
+          if (accents.indexOf(accent) < 0) accent = 'violet';
+          var root = document.documentElement;
+          root.setAttribute('data-theme', theme);
+          root.setAttribute('data-accent', accent);
+          root.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#090e18' : '#e9effa');
+        } catch (e) {}
+      })();
+    </script>
     <title>[[TITLE_PLACEHOLDER]]</title>
   </head>
   <body>

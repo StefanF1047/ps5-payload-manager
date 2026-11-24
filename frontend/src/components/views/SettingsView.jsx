@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Terminal, ChevronRight, Globe, Languages } from 'lucide-react'
+import { Terminal, ChevronRight, Globe, Languages, Palette, Sun, Moon, Check } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/helpers'
 import { LANGUAGE_NAMES } from '../../utils/localeSupport'
+import { ACCENTS, getStoredAppearance, saveAppearance } from '../../utils/theme'
 
 const FOLLOW_BROWSER_LANGUAGE = '__auto__'
 
@@ -21,7 +22,7 @@ const SettingRow = ({ title, description, children, icon: Icon, vertical }) => (
   )}>
     <div className="flex items-start md:items-center space-x-4 md:space-x-5 min-w-0 col-span-1">
       {Icon && (
-        <div className="p-3 md:p-4 bg-[rgba(124,58,237,0.06)] border border-[rgba(124,58,237,0.18)] rounded-lg shrink-0">
+        <div className="p-3 md:p-4 bg-[rgba(var(--pm-accent-rgb),0.06)] border border-[rgba(var(--pm-accent-rgb),0.18)] rounded-lg shrink-0">
           <Icon className="w-5 h-5 md:w-6 md:h-6 text-ps-blue" />
         </div>
       )}
@@ -51,6 +52,15 @@ const SettingsView = ({ config, onSaveConfig, setShowLogs, onNavigate, onClearCa
   const autoloadDelay = config.AUTOLOAD_DELAY ?? 5
   const multiSources = config.MULTI_SOURCES_ENABLED === true
   const [followBrowserLanguage, setFollowBrowserLanguage] = useState(isFollowingBrowserLanguage)
+  const [appearance, setAppearance] = useState(getStoredAppearance)
+
+  const chooseTheme = (theme) => {
+    setAppearance(saveAppearance(theme, appearance.accent))
+  }
+
+  const chooseAccent = (accent) => {
+    setAppearance(saveAppearance(appearance.theme, accent))
+  }
 
   const [clearingCache, setClearingCache] = useState(false)
   const [cacheMessage, setCacheMessage] = useState('')
@@ -96,6 +106,66 @@ const SettingsView = ({ config, onSaveConfig, setShowLogs, onNavigate, onClearCa
         </h2>
       </div>
 
+      {/* Appearance */}
+      <section className="space-y-8">
+        <h3 className="pm-mono !text-ps-blue !opacity-100 flex items-center space-x-4 text-lg md:text-xl tracking-[0.24em] uppercase">
+          <Palette className="w-6 h-6" />
+          <span>{t("settings.appearance_title", "Appearance")}</span>
+        </h3>
+
+        <div className="pm-panel pm-frame p-5 md:p-7 rounded-ps-2xl space-y-8">
+          <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center md:gap-8">
+            <div className="space-y-1 min-w-0">
+              <p className="font-bold text-white uppercase text-sm md:text-base tracking-[0.08em]">{t("settings.theme_title", "Theme")}</p>
+              <p className="text-sm text-zinc-500 leading-relaxed max-w-xl">{t("settings.appearance_desc", "Choose how Payload Manager looks on this console.")}</p>
+            </div>
+            <div className="pm-segmented" role="group" aria-label={t("settings.appearance_title", "Appearance")}>
+              <button
+                type="button"
+                aria-pressed={appearance.theme === 'light'}
+                onClick={() => chooseTheme('light')}
+                className={cn(appearance.theme === 'light' && 'pm-segment-active')}
+              >
+                <Sun className="w-4 h-4" />
+                <span>{t("settings.theme_light", "Light")}</span>
+              </button>
+              <button
+                type="button"
+                aria-pressed={appearance.theme === 'dark'}
+                onClick={() => chooseTheme('dark')}
+                className={cn(appearance.theme === 'dark' && 'pm-segment-active')}
+              >
+                <Moon className="w-4 h-4" />
+                <span>{t("settings.theme_dark", "Dark")}</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <p className="font-bold text-white uppercase text-sm md:text-base tracking-[0.08em]">{t("settings.accent_title", "Accent color")}</p>
+              <p className="text-sm text-zinc-500">{t("settings.accent_desc", "Used for highlights, buttons and focus states.")}</p>
+            </div>
+            <div className="flex flex-wrap gap-3 pt-1" role="group" aria-label={t("settings.accent_title", "Accent color")}>
+              {ACCENTS.map((accent) => (
+                <button
+                  key={accent.id}
+                  type="button"
+                  aria-pressed={appearance.accent === accent.id}
+                  aria-label={t(accent.labelKey, accent.id)}
+                  title={t(accent.labelKey, accent.id)}
+                  onClick={() => chooseAccent(accent.id)}
+                  className={cn("pm-swatch", appearance.accent === accent.id && "pm-swatch-active")}
+                  style={{ background: accent.swatch, color: accent.id === 'amber' ? '#2a1a02' : '#ffffff' }}
+                >
+                  {appearance.accent === accent.id && <Check className="w-5 h-5" />}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Startup Settings */}
       <section className="space-y-8">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -106,7 +176,7 @@ const SettingsView = ({ config, onSaveConfig, setShowLogs, onNavigate, onClearCa
             vertical
           >
             <div className="flex flex-col items-start space-y-2 w-full">
-              <div className="relative w-full bg-[rgba(255,255,255,0.72)] border border-[rgba(124,58,237,0.2)] text-white rounded-lg px-4 py-3 font-bold tracking-[0.06em] hover:border-[rgba(124,58,237,0.5)] transition-all overflow-hidden flex items-center justify-between">
+              <div className="relative w-full bg-ps-card border border-[rgba(var(--pm-accent-rgb),0.2)] text-white rounded-lg px-4 py-3 font-bold tracking-[0.06em] hover:border-[rgba(var(--pm-accent-rgb),0.5)] transition-all overflow-hidden flex items-center justify-between">
                 <span>
                   {followBrowserLanguage
                     ? t("settings.language_system_default", "System Default")
@@ -311,7 +381,7 @@ const SettingsView = ({ config, onSaveConfig, setShowLogs, onNavigate, onClearCa
             vertical
           >
             <button onClick={handleClearCache} disabled={clearingCache}
-              className="px-5 py-3 rounded-lg bg-[rgba(124,58,237,0.1)] border border-[rgba(124,58,237,0.3)] hover:bg-[rgba(124,58,237,0.2)] disabled:opacity-50 font-bold uppercase tracking-[0.1em] text-sm text-ps-blue transition-colors">
+              className="px-5 py-3 rounded-lg bg-[rgba(var(--pm-accent-rgb),0.1)] border border-[rgba(var(--pm-accent-rgb),0.3)] hover:bg-[rgba(var(--pm-accent-rgb),0.2)] disabled:opacity-50 font-bold uppercase tracking-[0.1em] text-sm text-ps-blue transition-colors">
               {clearingCache ? t('settings.cache_clearing', 'Clearing…') : t('settings.cache_clear', 'Clear Cache')}
             </button>
             {cacheMessage && <p role="status" className="mt-3 text-sm text-zinc-400">{cacheMessage}</p>}
@@ -323,7 +393,7 @@ const SettingsView = ({ config, onSaveConfig, setShowLogs, onNavigate, onClearCa
               className="group w-full text-left grid grid-cols-[1fr_auto] md:flex md:items-center md:justify-between pm-panel pm-tile p-5 md:p-7 rounded-ps-2xl transition-all gap-x-4 gap-y-3 md:gap-6"
             >
               <div className="flex items-start md:items-center space-x-4 md:space-x-5 min-w-0 col-span-1">
-                <div className="p-3 md:p-4 bg-[rgba(124,58,237,0.06)] border border-[rgba(124,58,237,0.18)] rounded-lg shrink-0">
+                <div className="p-3 md:p-4 bg-[rgba(var(--pm-accent-rgb),0.06)] border border-[rgba(var(--pm-accent-rgb),0.18)] rounded-lg shrink-0">
                   <Globe className="w-5 h-5 md:w-6 md:h-6 text-ps-blue" />
                 </div>
                 <div className="space-y-1 min-w-0">
@@ -354,7 +424,7 @@ const SettingsView = ({ config, onSaveConfig, setShowLogs, onNavigate, onClearCa
           className="group w-full text-left grid grid-cols-[1fr_auto] md:flex md:items-center md:justify-between pm-panel pm-tile p-5 md:p-7 rounded-ps-2xl transition-all gap-x-4 gap-y-3 md:gap-6"
         >
           <div className="flex items-start md:items-center space-x-4 md:space-x-5 min-w-0 col-span-1">
-            <div className="p-3 md:p-4 bg-[rgba(124,58,237,0.06)] border border-[rgba(124,58,237,0.18)] rounded-lg shrink-0">
+            <div className="p-3 md:p-4 bg-[rgba(var(--pm-accent-rgb),0.06)] border border-[rgba(var(--pm-accent-rgb),0.18)] rounded-lg shrink-0">
               <Terminal className="w-5 h-5 md:w-6 md:h-6 text-ps-blue" />
             </div>
             <div className="space-y-1 min-w-0">

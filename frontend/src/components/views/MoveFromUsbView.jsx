@@ -60,7 +60,7 @@ const MoveFromUsbView = ({ path, onBack, onComplete, addToast }) => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-12 animate-fade-in pb-20">
-      <button onClick={onBack} className="pm-mono flex items-center space-x-3 text-zinc-500 hover:text-[#0a1730] transition-colors group uppercase tracking-[0.14em] text-[10px] md:text-xs font-bold">
+      <button onClick={onBack} className="pm-mono flex items-center space-x-3 text-zinc-500 hover:text-ps-text transition-colors group uppercase tracking-[0.14em] text-[10px] md:text-xs font-bold">
         <ArrowLeft className="w-5 h-5 md:w-6 md:h-6 group-hover:-translate-x-1 transition-transform" />
         <span>{t("move_usb.back_btn", "Back to Management")}</span>
       </button>

@@ -109,7 +109,7 @@ const PayloadButton = ({
             </div>
           )}
           {isLaunched && !isEditMode && !isManageMode && !isLoading && (
-            <div className="group/tooltip relative p-1 text-[#059669]">
+            <div className="group/tooltip relative p-1 text-emerald-500">
               <CheckCircle2 className="w-5 h-5" />
               <div className="absolute bottom-full right-0 mb-2 px-2 py-1 pm-panel pm-mono text-[10px] uppercase tracking-[0.14em] text-white rounded opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
                 {t("app.dashboard.launched_tooltip", "Launched recently")}

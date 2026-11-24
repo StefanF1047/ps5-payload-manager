@@ -105,16 +105,16 @@ const AutoloadOverlay = ({ status, items = [], itemsLoading = false, onCancel, o
               </div>
             ) : (
               <div className="relative h-44 w-44 md:h-64 md:w-64 lg:h-80 lg:w-80 flex items-center justify-center">
-                <span className="absolute inset-2 rounded-full border border-dashed border-[rgba(124,58,237,0.18)]" />
+                <span className="absolute inset-2 rounded-full border border-dashed border-[rgba(var(--pm-accent-rgb),0.18)]" />
                 <svg viewBox="0 0 224 224" className="absolute inset-0 w-full h-full -rotate-90" aria-hidden="true">
                   <defs>
                     <linearGradient id="pm-ring-grad" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="#a855f7" />
-                      <stop offset="55%" stopColor="#7c3aed" />
-                      <stop offset="100%" stopColor="#db2777" />
+                      <stop offset="0%" style={{ stopColor: 'var(--pm-accent-text-solid)' }} />
+                      <stop offset="55%" style={{ stopColor: 'var(--pm-accent-solid)' }} />
+                      <stop offset="100%" style={{ stopColor: 'var(--pm-accent-2-solid)' }} />
                     </linearGradient>
                   </defs>
-                  <circle cx="112" cy="112" r="100" fill="none" stroke="currentColor" strokeWidth="6" className="text-[rgba(124,58,237,0.12)]" />
+                  <circle cx="112" cy="112" r="100" fill="none" stroke="currentColor" strokeWidth="6" className="text-[rgba(var(--pm-accent-rgb),0.12)]" />
                   <circle cx="112" cy="112" r="100" fill="none" stroke="url(#pm-ring-grad)" strokeWidth="9" strokeOpacity="0.18" strokeDasharray="628"
                     strokeDashoffset={628 - 628 * ringProgress} />
                   <circle cx="112" cy="112" r="100" fill="none" stroke="url(#pm-ring-grad)" strokeWidth="5" strokeLinecap="round" strokeDasharray="628"
@@ -133,12 +133,12 @@ const AutoloadOverlay = ({ status, items = [], itemsLoading = false, onCancel, o
               </div>
             )}
             <button onClick={isDone ? onFinish : onCancel} autoFocus={!isDone}
-              className={cn('w-full py-4 md:py-5 px-4 rounded-lg text-base md:text-lg font-black uppercase tracking-[0.12em] border transition-colors', isDone ? 'pm-btn-primary border-transparent' : 'bg-white/5 border-[rgba(124,58,237,0.25)] text-white hover:bg-red-600 hover:border-red-600')}>
+              className={cn('w-full py-4 md:py-5 px-4 rounded-lg text-base md:text-lg font-black uppercase tracking-[0.12em] border transition-colors', isDone ? 'pm-btn-primary border-transparent' : 'bg-white/5 border-[rgba(var(--pm-accent-rgb),0.25)] text-white hover:bg-red-600 hover:border-red-600')}>
               {isDone ? t('autoload_overlay.return_btn', 'Return to Dashboard') : t('autoload_overlay.abort_btn', 'Abort Autoload')}
             </button>
           </div>
 
-          <div className="min-w-0 w-full pm-panel pm-frame px-4 md:px-5 py-3 rounded-ps-3xl border border-[rgba(124,58,237,0.18)]">
+          <div className="min-w-0 w-full pm-panel pm-frame px-4 md:px-5 py-3 rounded-ps-3xl border border-[rgba(var(--pm-accent-rgb),0.18)]">
             <div className="flex items-center justify-between mb-4 space-x-3">
               <h3 className="pm-mono text-base md:text-lg font-bold text-white uppercase tracking-[0.16em]">{t('autoload_overlay.payload_list', 'Payload List')}</h3>
               <span className="pm-chip pm-chip-muted tabular-nums">{done} / {total}</span>
@@ -172,7 +172,7 @@ const AutoloadOverlay = ({ status, items = [], itemsLoading = false, onCancel, o
                       {metadataLoading && !meta.icon
                         ? <div data-icon-pending className="w-11 h-11 md:w-16 md:h-16 rounded-2xl border border-white/10 bg-white/5" />
                         : <PayloadIcon icon={meta.icon} name={meta.filename.split('/').pop()} className="w-11 h-11 md:w-16 md:h-16 text-xl" />}
-                      <span className={cn('pm-mono absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full border border-[#ffffff] flex items-center justify-center text-[10px] font-bold text-white', processed && !failed && !skipped ? 'bg-emerald-400' : 'bg-ps-blue')}>{index + 1}</span>
+                      <span className={cn('pm-mono absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full border border-[var(--pm-surface)] flex items-center justify-center text-[10px] font-bold text-white', processed && !failed && !skipped ? 'bg-emerald-400' : 'bg-ps-blue')}>{index + 1}</span>
                     </div>
                     <div className="min-w-0 flex-1">
                       <PayloadName path={meta.filename} displayName={meta.name} version={meta.version}

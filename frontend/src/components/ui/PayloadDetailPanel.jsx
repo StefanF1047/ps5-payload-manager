@@ -245,7 +245,7 @@ const PayloadDetailPanel = ({
                     e.preventDefault();
                     setLinkModalUrl(repoUrl);
                   }}
-                  className="flex items-center gap-1.5 text-ps-blue hover:text-[#db2777] transition-colors underline-offset-2 hover:underline shrink-0 max-w-full"
+                  className="flex items-center gap-1.5 text-ps-blue hover:text-ps-text transition-colors underline-offset-2 hover:underline shrink-0 max-w-full"
                   title={repoUrl}
                 >
                   {isGithub ? (
@@ -293,7 +293,7 @@ const PayloadDetailPanel = ({
                 <button
                   type="button"
                   disabled
-                  className="pm-on-accent w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-lg font-extrabold text-base transition-all bg-ps-blue/50 cursor-not-allowed opacity-90"
+                  className="pm-on-accent w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-lg font-extrabold text-base transition-all bg-ps-blue opacity-60 cursor-not-allowed opacity-90"
                 >
                   <Loader2 className="w-5 h-5 shrink-0 animate-spin" />
                   <span>{label}</span>
@@ -359,7 +359,7 @@ const PayloadDetailPanel = ({
 
       {/* Full Description / README Section */}
       <div className="mt-8 space-y-4 min-w-0 max-w-full">
-        <div className="flex items-center justify-between border-b border-[rgba(124,58,237,0.14)] pb-3">
+        <div className="flex items-center justify-between border-b border-[rgba(var(--pm-accent-rgb),0.14)] pb-3">
           <h3 className="pm-mono text-base sm:text-lg font-bold text-white flex items-center gap-2 uppercase tracking-[0.16em]">
             <FileText className="w-5 h-5 text-ps-blue" />
             <span>{t("payload_detail.readme_title", "README")}</span>
@@ -439,7 +439,7 @@ const PayloadDetailPanel = ({
                   setLinkModalUrl(null);
                 }, 100);
               }}
-              className="flex-1 inline-flex items-center justify-center py-3 px-4 rounded-xl bg-ps-blue hover:bg-ps-blue/80 text-white font-black uppercase text-sm transition-all shadow-lg"
+              className="flex-1 inline-flex items-center justify-center py-3 px-4 rounded-xl bg-ps-blue hover:bg-ps-blue text-white font-black uppercase text-sm transition-all shadow-lg"
             >
               {t("payload_detail.open_link", "Open Link")}
             </a>
@@ -450,7 +450,7 @@ const PayloadDetailPanel = ({
           <p>
             {t("payload_detail.external_link_confirm", "Are you sure you want to open this external link?")}
           </p>
-          <div className="p-3 bg-[rgba(255,255,255,0.65)] rounded-xl border border-white/10 font-mono text-xs text-zinc-400 break-all select-all">
+          <div className="p-3 bg-ps-card rounded-xl border border-white/10 font-mono text-xs text-zinc-400 break-all select-all">
             {linkModalUrl}
           </div>
         </div>

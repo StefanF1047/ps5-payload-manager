@@ -30,7 +30,7 @@ const LogViewer = ({ logs }) => {
   }
 
   return (
-    <div className="flex-1 min-h-0 flex flex-col relative group h-full bg-[rgba(255,255,255,0.55)]">
+    <div className="flex-1 min-h-0 flex flex-col relative group h-full bg-ps-overlay">
       <div
         ref={scrollRef}
         onScroll={handleScroll}
@@ -49,7 +49,7 @@ const LogViewer = ({ logs }) => {
       {!isAtBottom && hasNewLogs && (
         <button
           onClick={scrollToBottom}
-          className="pm-mono absolute bottom-10 inset-x-0 mx-auto w-max px-6 md:px-8 py-3 md:py-4 bg-ps-blue text-white rounded-lg font-black uppercase tracking-[0.2em] text-[10px] md:text-[11px] z-50 flex items-center space-x-3 border border-ps-blue shadow-[0_0_44px_-10px_rgba(124,58,237,0.9)] hover:bg-[#db2777] transition-colors"
+          className="pm-mono absolute bottom-10 inset-x-0 mx-auto w-max px-6 md:px-8 py-3 md:py-4 bg-ps-blue text-white rounded-lg font-black uppercase tracking-[0.2em] text-[10px] md:text-[11px] z-50 flex items-center space-x-3 border border-ps-blue shadow-[0_0_44px_-10px_rgba(var(--pm-accent-rgb),0.9)] hover:bg-ps-blue transition-colors"
         >
           <ChevronDown className="w-5 h-5" />
           <span>{t("logs.new_activity_btn", "New Activity Below")}</span>

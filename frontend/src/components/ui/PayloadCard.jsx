@@ -98,7 +98,7 @@ const PayloadCard = ({ payload, onClick, statusInfo, isUpdate: isUpdateProp, isI
           className="absolute bottom-3.5 right-3.5 sm:bottom-4 sm:right-4 flex items-center pointer-events-none z-10"
           title={t("storage_hub.installed_badge", "Installed")}
         >
-          <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 bg-[rgba(255,255,255,0.85)] rounded-full" />
+          <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 bg-ps-card-strong rounded-full" />
         </div>
       ) : null}
     </button>

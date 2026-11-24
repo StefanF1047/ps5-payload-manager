@@ -305,7 +305,7 @@ const StorageHub = ({
                     mode: 'keep_both',
                   })
                 }}
-                className="flex-1 py-3 px-4 rounded-xl bg-ps-blue hover:bg-ps-blue/80 text-white font-black uppercase text-sm transition-all shadow-lg"
+                className="flex-1 py-3 px-4 rounded-xl bg-ps-blue hover:bg-ps-blue text-white font-black uppercase text-sm transition-all shadow-lg"
               >
                 {t("storage_hub.conflict_keep_both", "Keep both")}
               </button>
@@ -369,7 +369,7 @@ const StorageHub = ({
                   mode: 'keep_both',
                 })
               }}
-              className="flex-1 py-3 px-4 rounded-xl bg-ps-blue hover:bg-ps-blue/80 text-white font-black uppercase text-sm transition-all shadow-lg"
+              className="flex-1 py-3 px-4 rounded-xl bg-ps-blue hover:bg-ps-blue text-white font-black uppercase text-sm transition-all shadow-lg"
             >
               {t("storage_hub.conflict_keep_both", "Keep both")}
             </button>
@@ -401,7 +401,7 @@ const StorageHub = ({
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto min-w-0 max-w-full">
           {isSearchOpen ? (
-            <div className="flex items-center bg-[rgba(255,255,255,0.72)] border border-[rgba(124,58,237,0.22)] rounded-md px-3 py-1.5 sm:px-4 sm:py-2 focus-within:border-ps-blue/70 transition-all w-full sm:w-64 md:w-80 max-w-full">
+            <div className="flex items-center bg-ps-card border border-[rgba(var(--pm-accent-rgb),0.22)] rounded-md px-3 py-1.5 sm:px-4 sm:py-2 focus-within:border-ps-blue/70 transition-all w-full sm:w-64 md:w-80 max-w-full">
               <Search className="w-4 h-4 sm:w-5 sm:h-5 text-ps-blue mr-2 shrink-0" />
               <input
                 ref={searchInputRef}
@@ -422,7 +422,7 @@ const StorageHub = ({
                 <button
                   type="button"
                   onClick={() => setSearch('')}
-                  className="p-1 hover:text-[#0a1730] text-zinc-500 shrink-0"
+                  className="p-1 hover:text-ps-text text-zinc-500 shrink-0"
                   title={t("app.buttons.clear", "Clear")}
                 >
                   <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -434,7 +434,7 @@ const StorageHub = ({
                   setIsSearchOpen(false)
                   setSearch('')
                 }}
-                className="p-1 hover:text-[#0a1730] text-zinc-500 ml-1 shrink-0"
+                className="p-1 hover:text-ps-text text-zinc-500 ml-1 shrink-0"
                 title={t("app.buttons.close", "Close")}
               >
                 <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -590,10 +590,10 @@ const StorageHub = ({
                   {multiSources && (
                     <button
                       onClick={() => setExpandedSource(isExpanded ? null : src.id)}
-                      className="w-full flex items-center justify-between px-4 py-3.5 sm:px-6 sm:py-4 md:px-6 md:py-5 hover:bg-[rgba(124,58,237,0.05)] transition-colors"
+                      className="w-full flex items-center justify-between px-4 py-3.5 sm:px-6 sm:py-4 md:px-6 md:py-5 hover:bg-[rgba(var(--pm-accent-rgb),0.05)] transition-colors"
                     >
                       <div className="flex items-center space-x-4 min-w-0">
-                        <div className="p-2.5 bg-[rgba(124,58,237,0.08)] border border-[rgba(124,58,237,0.25)] rounded-lg shrink-0">
+                        <div className="p-2.5 bg-[rgba(var(--pm-accent-rgb),0.08)] border border-[rgba(var(--pm-accent-rgb),0.25)] rounded-lg shrink-0">
                           <Globe className="w-5 h-5 text-ps-blue" />
                         </div>
                         <div className="text-left min-w-0">
@@ -630,7 +630,7 @@ const StorageHub = ({
                   )}
 
                   {isExpanded && (
-                    <div className={cn(multiSources ? "border-t border-[rgba(124,58,237,0.1)] p-3 sm:p-4 md:p-4.5" : "")}>
+                    <div className={cn(multiSources ? "border-t border-[rgba(var(--pm-accent-rgb),0.1)] p-3 sm:p-4 md:p-4.5" : "")}>
                       {src.payloads.length === 0 ? (
                         <div className="py-12 flex flex-col items-center justify-center space-y-3 text-zinc-600">
                           <p className="pm-mono text-xs font-bold uppercase tracking-[0.24em]">
@@ -757,7 +757,7 @@ const StorageHub = ({
                     className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-6 glass-card pm-tile rounded-ps-2xl gap-3 sm:gap-4"
                   >
                     <div className="flex items-center space-x-4 md:space-x-6 min-w-0 w-full sm:w-auto">
-                      <div className="p-3 md:p-4 bg-[rgba(124,58,237,0.06)] border border-[rgba(124,58,237,0.18)] rounded-lg transition-colors shrink-0">
+                      <div className="p-3 md:p-4 bg-[rgba(var(--pm-accent-rgb),0.06)] border border-[rgba(var(--pm-accent-rgb),0.18)] rounded-lg transition-colors shrink-0">
                         <Usb className="w-6 h-6 md:w-8 md:h-8 text-ps-blue" />
                       </div>
                       <div className="space-y-1 min-w-0 flex-1">
@@ -770,7 +770,7 @@ const StorageHub = ({
                     <div className="flex items-center shrink-0 w-full sm:w-auto">
                       <button
                         onClick={() => onImportFromUsb(path)}
-                        className="flex items-center justify-center space-x-2 md:space-x-3 px-4 md:px-6 py-3 md:py-4 bg-[rgba(124,58,237,0.08)] hover:bg-ps-blue text-ps-blue hover:text-white rounded-lg font-bold text-xs md:text-sm uppercase tracking-[0.1em] transition-colors border border-[rgba(124,58,237,0.3)] group/btn w-full sm:w-auto"
+                        className="flex items-center justify-center space-x-2 md:space-x-3 px-4 md:px-6 py-3 md:py-4 bg-[rgba(var(--pm-accent-rgb),0.08)] hover:bg-ps-blue text-ps-blue hover:text-white rounded-lg font-bold text-xs md:text-sm uppercase tracking-[0.1em] transition-colors border border-[rgba(var(--pm-accent-rgb),0.3)] group/btn w-full sm:w-auto"
                       >
                         <Database className="w-4 h-4 md:w-5 md:h-5 transition-colors" />
                         <span>{t("storage_hub.move_internal_btn", "Move to Internal")}</span>
@@ -801,7 +801,7 @@ const StorageHub = ({
           </div>
           <div className="flex-1 space-y-3 md:space-y-4 text-center md:text-left">
             <h4 className="pm-mono !opacity-100 text-lg md:text-2xl tracking-[0.2em] uppercase flex items-center justify-center md:justify-start space-x-3 md:space-x-4">
-              <div className="w-1 md:w-1.5 h-6 md:h-8 bg-ps-blue shadow-[0_0_14px_rgba(124,58,237,0.8)]" />
+              <div className="w-1 md:w-1.5 h-6 md:h-8 bg-ps-blue shadow-[0_0_14px_rgba(var(--pm-accent-rgb),0.8)]" />
               <span>{t("storage_hub.remote_management_title", "Remote Management")}</span>
             </h4>
             <p className="text-base md:text-xl text-zinc-400 leading-relaxed font-medium max-w-3xl">

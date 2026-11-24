@@ -703,7 +703,7 @@ function App() {
           <div className="pm-mono text-6xl md:text-7xl font-light text-zinc-400 mb-10">:(</div>
           <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4 text-zinc-200">{t("app.offline.title", "Payload Manager is not running...")}</h1>
           <p className="text-base md:text-lg text-zinc-400 leading-relaxed">{t("app.offline.message_1", "Please ensure you have loaded")} <strong className="text-ps-blue">pldmgr.elf</strong> {t("app.offline.message_2", "on your PS5 before launching this application.")}</p>
-          <div className="mt-8 h-px w-full bg-gradient-to-r from-transparent via-[rgba(124,58,237,0.4)] to-transparent" />
+          <div className="mt-8 h-px w-full bg-gradient-to-r from-transparent via-[rgba(var(--pm-accent-rgb),0.4)] to-transparent" />
           <p className="pm-mono mt-4 text-[9px] tracking-[0.32em] text-zinc-600 uppercase">Awaiting payload daemon</p>
         </div>
       </div>
@@ -781,7 +781,7 @@ function App() {
             <button
               type="button"
               onClick={() => performUpload(uploadConflictModal.file, 'keep_both')}
-              className="flex-1 py-3 px-4 rounded-xl bg-ps-blue text-white hover:bg-[#db2777] font-black uppercase text-xs tracking-[0.12em] transition-all shadow-lg"
+              className="flex-1 py-3 px-4 rounded-xl bg-ps-blue text-white hover:bg-ps-blue font-black uppercase text-xs tracking-[0.12em] transition-all shadow-lg"
             >
               {t("storage_hub.conflict_keep_both", "Keep both")}
             </button>
@@ -988,7 +988,7 @@ function App() {
                 ) : dashboardItems.length === 0 ? (
                   <div className={gridCols}>
                     <div className="col-span-full pm-panel pm-frame py-16 md:py-20 rounded-ps-2xl flex flex-col items-center justify-center space-y-6">
-                      <div className="w-20 h-20 rounded-full border border-[rgba(124,58,237,0.28)] bg-[rgba(124,58,237,0.06)] flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full border border-[rgba(var(--pm-accent-rgb),0.28)] bg-[rgba(var(--pm-accent-rgb),0.06)] flex items-center justify-center">
                         <Package className="w-9 h-9 text-ps-blue" />
                       </div>
                       <div className="text-center px-6">
@@ -1003,14 +1003,14 @@ function App() {
                     {activeFavoriteItems.length > 0 && (
                       <div className="space-y-4">
                         <div className="flex items-center gap-3">
-                          <Star className="w-4 h-4 text-[#b45309] fill-[#b45309]" />
-                          <span className="pm-mono text-[10px] font-bold tracking-[0.3em] uppercase text-[#b45309]">{txtFavorites}</span>
-                          <span className="flex-1 h-px bg-gradient-to-r from-[rgba(180,83,9,0.35)] to-transparent" />
+                          <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                          <span className="pm-mono text-[10px] font-bold tracking-[0.3em] uppercase text-amber-400">{txtFavorites}</span>
+                          <span className="flex-1 h-px bg-gradient-to-r from-amber-400/35 to-transparent" />
                         </div>
                         <div className={gridCols}>
                           {activeFavoriteItems.map(makeCard)}
                         </div>
-                        <div className="border-t border-[rgba(124,58,237,0.12)] pt-8">
+                        <div className="border-t border-[rgba(var(--pm-accent-rgb),0.12)] pt-8">
                           <p className="pm-eyebrow mb-4">{txtOthers}</p>
                           <div className={gridCols}>
                             {unfavorited.map(makeCard)}
@@ -1157,9 +1157,9 @@ function App() {
       )}
       {showLogs && (
         <div className="fixed inset-0 z-[9999] pm-overlay-bg flex flex-col animate-in fade-in duration-300">
-          <div className="p-4 md:p-6 border-b border-[rgba(17,45,90,0.14)] flex items-center justify-between bg-[rgba(255,255,255,0.85)] sticky top-0 z-10">
+          <div className="p-4 md:p-6 border-b border-ps-border flex items-center justify-between bg-ps-card-strong sticky top-0 z-10">
             <div className="flex items-center space-x-3 md:space-x-4 min-w-0">
-              <span className="w-1 h-6 md:h-8 bg-ps-blue shadow-[0_0_14px_rgba(124,58,237,0.8)]" />
+              <span className="w-1 h-6 md:h-8 bg-ps-blue shadow-[0_0_14px_rgba(var(--pm-accent-rgb),0.8)]" />
               <Terminal className="w-6 h-6 md:w-7 md:h-7 text-ps-blue shrink-0" />
               <h3 className="pm-mono text-xl md:text-2xl font-black text-white uppercase tracking-[0.18em] truncate">{t("app.logs.title", "Logs")}</h3>
               <span className="pm-chip pm-chip-muted hidden sm:!inline-flex">{logs.length}</span>
@@ -1171,7 +1171,7 @@ function App() {
               <X className="w-6 h-6 md:w-7 md:h-7 transition-transform group-hover:rotate-90" />
             </button>
           </div>
-          <div className="flex-1 overflow-hidden bg-[rgba(255,255,255,0.45)]">
+          <div className="flex-1 overflow-hidden bg-ps-card-soft">
             <LogViewer logs={logs} />
           </div>
         </div>

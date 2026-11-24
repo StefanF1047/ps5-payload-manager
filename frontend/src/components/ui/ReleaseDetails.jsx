@@ -37,7 +37,7 @@ export default function ReleaseDetails({ payload, onMarkdownClick }) {
         <span className="flex-1">{t('payload_detail.release_details', 'Release details')}</span>
         <ChevronDown className="w-5 h-5 shrink-0 group-open:rotate-180 transition-transform" />
       </summary>
-      {expanded && <div className="px-5 pb-5 sm:px-6 sm:pb-6 border-t border-[rgba(124,58,237,0.1)] pt-4">
+      {expanded && <div className="px-5 pb-5 sm:px-6 sm:pb-6 border-t border-[rgba(var(--pm-accent-rgb),0.1)] pt-4">
         {loading ? <div className="flex items-center gap-2 text-sm text-zinc-400" role="status">
           <Loader2 className="w-4 h-4 animate-spin" />
           {t('payload_detail.loading_release', 'Loading release details...')}
