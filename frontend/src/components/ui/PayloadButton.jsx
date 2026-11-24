@@ -29,6 +29,7 @@ const PayloadButton = ({
   const safePath = typeof path === 'string' ? path : ''
   const isUsb = Boolean(safePath && safePath.startsWith('/mnt/usb'))
   const iconName = safePath ? safePath.split('/').pop() : (displayName || 'Payload')
+  // Kept for potential re-enable of the BIN/ELF chip below.
   const fileKind = /\.bin$/i.test(safePath) ? 'BIN' : 'ELF'
 
   const handleClick = (e) => {
@@ -90,7 +91,8 @@ const PayloadButton = ({
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <span className="pm-chip pm-chip-muted hidden sm:!inline-flex">{fileKind}</span>
+          {/* BIN/ELF chip intentionally hidden — kept commented for easy re-enable. */}
+          {/* <span className="pm-chip pm-chip-muted hidden sm:!inline-flex">{fileKind}</span> */}
           {isEditMode && (
             <div
               className={cn(
